@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Users/DELL/Documents/DO_IT/Airbnb Joyce/**)",
+      "Bash(python skills/ui-ux-pro-max/scripts/search.py \"luxury short-term rental airbnb superhost architectural minimalism art gallery premium\" --design-system -p \"Joyce Locations\")",
+      "Bash(python \".claude\\\\skills\\\\ui-ux-pro-max\\\\scripts\\\\search.py\" \"luxury short-term rental airbnb superhost architectural minimalism art gallery premium\" --design-system -p \"Joyce Locations\")",
+      "Bash(powershell *)",
+      "Bash(Start-Process *)",
+      "PowerShell(Start-Process \"C:\\\\Users\\\\DELL\\\\Documents\\\\DO_IT\\\\Airbnb Joyce\\\\ebauche\\\\index.html\")",
+      "Bash(start *)"
+    ]
+  }
+}

@@ -1,0 +1,1386 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Joyce Locations — Granby &amp; Blainville, Québec</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400;1,500&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
+<style>
+/* ── Variables ─────────────────────────────────────── */
+:root {
+  --white:      #ffffff;
+  --black:      #111111;
+  --copper:     #a0694a;
+  --warm-grey:  #e8e2d9;
+  --muted:      #888070;
+  --fd: 'Cormorant Garamond', serif;
+  --fb: 'Jost', sans-serif;
+  --ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* ── Reset ─────────────────────────────────────────── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--white);
+  color: var(--black);
+  font-family: var(--fb);
+  font-weight: 300;
+  cursor: none;
+  overflow-x: hidden;
+}
+img { display: block; max-width: 100%; }
+a { text-decoration: none; color: inherit; }
+
+/* ── Custom Cursor ─────────────────────────────────── */
+#c-dot {
+  position: fixed;
+  width: 10px; height: 10px;
+  background: var(--black);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.2s;
+}
+#c-ring {
+  position: fixed;
+  width: 36px; height: 36px;
+  border: 1px solid var(--black);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: width 0.35s var(--ease), height 0.35s var(--ease),
+              background-color 0.35s var(--ease), border-color 0.35s var(--ease);
+}
+#c-ring.hov {
+  width: 60px; height: 60px;
+  background: rgba(160, 105, 74, 0.07);
+  border-color: var(--copper);
+}
+
+/* ── Navigation ────────────────────────────────────── */
+#nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 200;
+  transition: background 0.5s var(--ease), border-color 0.5s var(--ease), backdrop-filter 0.5s;
+  border-bottom: 1px solid transparent;
+}
+#nav.scrolled {
+  background: rgba(255,255,255,0.96);
+  border-color: var(--warm-grey);
+  backdrop-filter: blur(12px);
+}
+.nav-inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 1.6rem 3.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nav-brand {
+  font-family: var(--fd);
+  font-weight: 500;
+  font-size: 1.15rem;
+  color: var(--white);
+  letter-spacing: 0.02em;
+  transition: color 0.5s;
+  cursor: pointer;
+}
+.nav-brand em { font-style: italic; font-weight: 300; }
+#nav.scrolled .nav-brand { color: var(--black); }
+.nav-links {
+  display: flex;
+  gap: 2.5rem;
+}
+.nav-links a {
+  font-family: var(--fb);
+  font-weight: 300;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: rgba(255,255,255,0.88);
+  transition: color 0.3s;
+  cursor: pointer;
+}
+#nav.scrolled .nav-links a { color: var(--black); }
+.nav-links a:hover { color: var(--copper); }
+.nav-cta {
+  font-family: var(--fb);
+  font-weight: 300;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: rgba(255,255,255,0.88);
+  border: 1px solid var(--copper);
+  padding: 0.6rem 1.5rem;
+  transition: background 0.3s, color 0.3s;
+  cursor: pointer;
+}
+#nav.scrolled .nav-cta { color: var(--black); }
+.nav-cta:hover { background: var(--copper); color: var(--white); }
+
+/* ── Hero ──────────────────────────────────────────── */
+#hero {
+  position: relative;
+  height: 100vh;
+  min-height: 600px;
+  overflow: hidden;
+}
+.hero-panels {
+  position: absolute;
+  inset: 0;
+  display: flex;
+}
+.hero-panel {
+  flex: 1 1 0;
+  min-width: 0;
+  position: relative;
+  overflow: hidden;
+  transition: flex-grow 0.9s var(--ease);
+  cursor: pointer;
+}
+#hero.h-left  #panel-l { flex-grow: 1.86; }
+#hero.h-right #panel-r { flex-grow: 1.86; }
+
+.panel-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  will-change: transform;
+  animation: zoomIn 8s var(--ease) forwards;
+}
+@keyframes zoomIn {
+  from { transform: scale(1.08); }
+  to   { transform: scale(1.0);  }
+}
+.panel-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+}
+
+.panel-caption {
+  position: absolute;
+  bottom: 2.5rem;
+  background: var(--white);
+  padding: 1.4rem 1.8rem;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(8px);
+  transition: opacity 0.45s var(--ease), transform 0.45s var(--ease);
+  min-width: 260px;
+}
+.panel-caption-l { left: 2.5rem; }
+.panel-caption-r { right: 2.5rem; }
+#hero.h-left  .panel-caption-l,
+#hero.h-right .panel-caption-r {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.cap-name {
+  display: block;
+  font-family: var(--fd);
+  font-weight: 400;
+  font-size: 1rem;
+  color: var(--black);
+  margin-bottom: 0.3rem;
+}
+.cap-loc {
+  display: block;
+  font-family: var(--fb);
+  font-weight: 200;
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--muted);
+  margin-bottom: 0.5rem;
+}
+.cap-rat {
+  display: block;
+  font-family: var(--fd);
+  font-weight: 300;
+  font-size: 0.85rem;
+  color: var(--copper);
+}
+
+.hero-divider {
+  width: 1px;
+  background: rgba(232, 226, 217, 0.55);
+  flex-shrink: 0;
+  z-index: 5;
+}
+
+.hero-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  z-index: 20;
+  pointer-events: none;
+  opacity: 0;
+  animation: fadeIn 1.5s ease 1.5s forwards;
+}
+@keyframes fadeIn { to { opacity: 1; } }
+.hero-title {
+  font-family: var(--fd);
+  font-weight: 300;
+  font-size: clamp(5rem, 10vw, 10rem);
+  color: var(--white);
+  letter-spacing: 0.08em;
+  line-height: 1;
+}
+.hero-sub {
+  font-family: var(--fb);
+  font-weight: 200;
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.85);
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  margin-top: 0.75rem;
+}
+
+.hero-scroll {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  z-index: 20;
+  pointer-events: none;
+}
+.scroll-line {
+  width: 1px;
+  height: 48px;
+  background: rgba(255,255,255,0.18);
+  position: relative;
+  overflow: hidden;
+}
+.scroll-line::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(255,255,255,0.8);
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+@keyframes scrollPulse {
+  0%   { transform: translateY(-100%); }
+  100% { transform: translateY(200%); }
+}
+.scroll-label {
+  font-family: var(--fb);
+  font-weight: 200;
+  font-size: 0.55rem;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  color: rgba(255,255,255,0.65);
+}
+
+/* ── Scroll Reveals ────────────────────────────────── */
+[data-r] {
+  opacity: 0;
+  transition: opacity 0.9s var(--ease), transform 0.9s var(--ease);
+}
+[data-r="up"]    { transform: translateY(40px); }
+[data-r="left"]  { transform: translateX(-60px); }
+[data-r="right"] { transform: translateX(60px); }
+[data-r].vis { opacity: 1; transform: none; }
+
+/* ── Section Shared ────────────────────────────────── */
+.eyebrow {
+  display: block;
+  font-family: var(--fb);
+  font-weight: 300;
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+  color: var(--muted);
+  margin-bottom: 1.5rem;
+}
+.eyebrow-copper { color: var(--copper); }
+
+/* ── Bento System ────────────────────────────────────── */
+.bento-section      { padding: 4rem 60px 5rem; }
+.bento-dark-section { background: var(--black); padding: 4rem 60px 5rem; }
+.bento-warm-section { background: var(--warm-grey); padding: 4rem 60px 5rem; }
+
+.bento-lead { margin-bottom: 2rem; }
+.bento-lead .eyebrow { margin-bottom: 0.5rem; }
+.bento-lead-title {
+  font-family: var(--fd);
+  font-weight: 300;
+  font-size: clamp(1.6rem, 2.2vw, 2.2rem);
+  color: var(--black);
+}
+.bento-lead-title-wh { color: var(--white); }
+
+.bento-grid { display: grid; gap: 12px; grid-template-columns: repeat(3, 1fr); }
+.bga        { display: grid; gap: 12px; grid-template-columns: repeat(4, 1fr); }
+
+/* Card base */
+.bc {
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid var(--warm-grey);
+  position: relative;
+}
+.bc-white  { background: var(--white); }
+.bc-warm   { background: var(--warm-grey); border-color: transparent; }
+.bc-dark   { background: var(--black); border-color: transparent; }
+.bc-copper { background: var(--copper); border-color: transparent; }
+.bc-photo  { background-size: cover; background-position: center; border-color: transparent; }
+.bc-amen {
+  background: rgba(255,255,255,0.03);
+  border-color: rgba(255,255,255,0.07);
+  transition: border-color 0.35s, background 0.35s;
+  cursor: default;
+}
+.bc-amen:hover        { border-color: var(--copper); background: rgba(160,105,74,0.1); }
+.bc-amen:hover .amen-icon,
+.bc-amen:hover .amen-lbl { color: var(--copper); }
+.bc-amen:active       { border-color: var(--copper) !important; }
+.bc-amen:active .amen-icon,
+.bc-amen:active .amen-lbl { color: var(--copper) !important; }
+
+/* Column spanning */
+.bc-s2 { grid-column: span 2; }
+
+/* Heights */
+.bc-h500 { min-height: 500px; }
+.bc-h420 { min-height: 420px; }
+.bc-h280 { min-height: 280px; }
+.bc-h240 { min-height: 240px; }
+.bc-h220 { min-height: 220px; }
+.bc-h200 { min-height: 200px; }
+.bc-h130 { min-height: 130px; }
+
+/* Photo overlay */
+.bc-ov { position: absolute; inset: 0; background: rgba(0,0,0,0.38); }
+
+/* Content positioning */
+.bc-bottom {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  z-index: 2; padding: 2rem;
+}
+.bc-center {
+  position: absolute; inset: 0;
+  z-index: 2; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center; padding: 2rem;
+}
+.bc-mid {
+  position: absolute; inset: 0;
+  z-index: 2; display: flex;
+  align-items: center; justify-content: center;
+  text-align: center; padding: 2rem;
+}
+.bc-pad {
+  position: relative; z-index: 2; padding: 2.5rem;
+  height: 100%; display: flex; flex-direction: column; justify-content: center;
+}
+.bc-pad-start {
+  position: relative; z-index: 2; padding: 2.5rem;
+}
+
+/* Grid-specific placement */
+.bgh { grid-template-columns: repeat(3, 1fr); }
+.bgh > :nth-child(1) { grid-column: 1; grid-row: 1 / 3; }
+.bgh > :nth-child(2) { grid-column: 2 / 4; }
+.bgh > :nth-child(3) { grid-column: 2; }
+.bgh > :nth-child(4) { grid-column: 3; }
+
+.bgr { grid-template-columns: repeat(3, 1fr); }
+.bgr > :nth-child(1) { grid-column: 1; }
+.bgr > :nth-child(2) { grid-column: 2 / 4; }
+.bgr > :nth-child(3) { grid-column: 1 / 3; }
+.bgr > :nth-child(4) { grid-column: 3; }
+
+.bgc { grid-template-columns: repeat(3, 1fr); }
+.bgc > :nth-child(1) { grid-column: 1 / 3; }
+.bgc > :nth-child(2) { grid-column: 3; }
+
+/* Bento Typography */
+.bc-ey {
+  display: block; font-family: var(--fb); font-weight: 300;
+  font-size: 0.58rem; text-transform: uppercase;
+  letter-spacing: 0.28em; color: var(--copper); margin-bottom: 0.6rem;
+}
+.bc-h {
+  font-family: var(--fd); font-style: italic; font-weight: 300;
+  font-size: clamp(1.8rem, 2.5vw, 3rem); line-height: 1.1;
+  color: var(--white); margin-bottom: 1.2rem;
+}
+.bc-num {
+  display: block; font-family: var(--fd); font-weight: 300; line-height: 1; margin-bottom: 0.4rem;
+}
+.bc-cu { color: var(--copper); }
+.bc-wh { color: var(--white); }
+.bc-dk { color: var(--black); }
+.n6  { font-size: 6rem; }
+.n5  { font-size: 5rem; }
+.n4  { font-size: 4rem; }
+.n35 { font-size: 3.5rem; }
+.n25 { font-size: 2.5rem; }
+
+.bc-lbl {
+  display: block; font-family: var(--fb); font-weight: 200;
+  font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.2em;
+  color: rgba(255,255,255,0.8);
+}
+.bc-lbl-mu { color: var(--muted); }
+.bc-lbl-dk { color: var(--black); }
+
+.bc-stars    { display: block; font-size: 0.72rem; letter-spacing: 0.2em; color: var(--copper); margin-top: 0.5rem; }
+.bc-stars-wh { color: rgba(255,255,255,0.9); }
+.bc-stars-top { display: block; font-size: 0.72rem; letter-spacing: 0.15em; color: var(--copper); margin-bottom: 1rem; }
+
+.bc-stat {
+  display: block; font-family: var(--fd); font-weight: 300;
+  font-size: 2.5rem; color: var(--black); margin-bottom: 0.2rem;
+}
+.bc-sub  { display: block; font-family: var(--fb); font-weight: 200; font-size: 0.7rem; color: var(--muted); }
+.bc-tiny {
+  display: block; font-family: var(--fb); font-weight: 200;
+  font-size: 0.58rem; letter-spacing: 0.12em; text-transform: uppercase;
+  color: rgba(255,255,255,0.4); margin-top: 0.6rem;
+}
+.bc-am   { display: block; font-family: var(--fb); font-weight: 200; font-size: 0.85rem; color: rgba(255,255,255,0.85); letter-spacing: 0.08em; }
+.bc-body { font-family: var(--fb); font-weight: 300; font-size: 0.88rem; line-height: 1.8; color: var(--muted); }
+
+.bc-link {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  font-family: var(--fb); font-weight: 300; font-size: 0.62rem;
+  text-transform: uppercase; letter-spacing: 0.18em;
+  color: rgba(255,255,255,0.85); border-bottom: 1px solid rgba(255,255,255,0.35);
+  padding-bottom: 2px; transition: border-color 0.3s, color 0.3s; cursor: pointer;
+}
+.bc-link:hover { border-color: var(--copper); color: var(--copper); }
+
+.bc-quote    { font-family: var(--fd); font-style: italic; font-weight: 300; font-size: 1.05rem; line-height: 1.7; color: var(--black); margin-bottom: 1.5rem; }
+.bc-reviewer { font-family: var(--fb); font-weight: 300; font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.22em; color: var(--muted); margin-bottom: 0.25rem; }
+.bc-prop-nm  { font-family: var(--fb); font-weight: 300; font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--copper); }
+
+.bc-divider  { width: 30px; height: 1px; background: rgba(255,255,255,0.15); margin: 0.8rem auto; }
+
+.bc-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--white); color: var(--black);
+  font-family: var(--fb); font-weight: 300; font-size: 0.62rem;
+  text-transform: uppercase; letter-spacing: 0.2em;
+  padding: 0.9rem 2rem; border-radius: 0;
+  transition: background 0.3s, color 0.3s; cursor: pointer; min-height: 44px; margin-top: 1.5rem;
+}
+.bc-btn:hover { background: var(--copper); color: var(--white); }
+.bc-btn-cu    { background: var(--copper); color: var(--white); }
+.bc-btn-cu:hover { background: var(--black); }
+
+/* Separator card — Nos deux logements */
+.bc-sep {
+  grid-column: 1 / -1;
+  background: var(--warm-grey);
+  min-height: 80px;
+  border-radius: 0;
+  border: none;
+  margin-top: 24px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.bc-sep::before {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; top: 50%;
+  height: 1px;
+  background: var(--copper);
+  opacity: 0.45;
+}
+.bc-sep-text {
+  font-family: var(--fb);
+  font-weight: 200;
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  color: var(--copper);
+  background: var(--warm-grey);
+  padding: 0 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* Amenities icon/label within bento cards */
+.amen-icon { width: 22px; height: 22px; color: rgba(255,255,255,0.55); transition: color 0.35s; flex-shrink: 0; }
+.amen-lbl  { font-family: var(--fb); font-weight: 300; font-size: 0.78rem; color: rgba(255,255,255,0.7); transition: color 0.35s; letter-spacing: 0.03em; }
+
+/* ── Footer ────────────────────────────────────────── */
+footer {
+  background: var(--black);
+  padding: 4rem 3.5rem;
+}
+.footer-inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  align-items: center;
+  gap: 2rem;
+}
+.footer-brand {
+  font-family: var(--fd);
+  font-weight: 500;
+  font-size: 1rem;
+  color: var(--white);
+  display: block;
+  margin-bottom: 0.4rem;
+}
+.footer-brand em { font-style: italic; font-weight: 300; }
+.footer-tagline {
+  font-family: var(--fb);
+  font-weight: 200;
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--muted);
+}
+.footer-copy {
+  font-family: var(--fb);
+  font-weight: 200;
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--muted);
+  text-align: center;
+}
+.footer-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  align-items: flex-end;
+}
+.footer-nav a {
+  font-family: var(--fb);
+  font-weight: 200;
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--muted);
+  transition: color 0.3s;
+  cursor: pointer;
+}
+.footer-nav a:hover { color: var(--copper); }
+
+/* ── Hamburger ───────────────────────────────────────── */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  min-width: 44px;
+  min-height: 44px;
+}
+.hamburger span {
+  display: block;
+  width: 22px;
+  height: 1px;
+  background: var(--white);
+  transition: background 0.4s;
+}
+#nav.scrolled .hamburger span { background: var(--black); }
+
+/* ── Mobile Menu Overlay ─────────────────────────────── */
+.mob-menu {
+  position: fixed;
+  inset: 0;
+  background: var(--black);
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateX(100%);
+  transition: transform 0.45s var(--ease);
+  visibility: hidden;
+}
+.mob-menu.open {
+  transform: translateX(0);
+  visibility: visible;
+}
+.mob-close {
+  position: absolute;
+  top: 1.2rem;
+  right: 1.2rem;
+  font-size: 2rem;
+  font-family: var(--fb);
+  font-weight: 200;
+  color: var(--white);
+  background: none;
+  border: none;
+  cursor: pointer;
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+.mob-nav {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.5rem;
+}
+.mob-nav-link {
+  font-family: var(--fd);
+  font-style: italic;
+  font-weight: 300;
+  font-size: 2.8rem;
+  color: var(--white);
+  transition: color 0.3s;
+  display: block;
+  min-height: 44px;
+  line-height: 1.2;
+  text-align: center;
+}
+.mob-nav-link:active,
+.mob-nav-link:hover { color: var(--copper); }
+.mob-cta-link {
+  font-family: var(--fb);
+  font-style: normal;
+  font-weight: 300;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--copper);
+  border: 1px solid var(--copper);
+  padding: 0.9rem 2.5rem;
+  margin-top: 0.5rem;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  transition: background 0.3s, color 0.3s;
+}
+.mob-cta-link:active { background: var(--copper); color: var(--white); }
+
+/* ── Hero Mobile Captions ────────────────────────────── */
+.hero-mob-caps { display: none; }
+
+/* ── Touch Device: remove cursor ────────────────────── */
+@media (pointer: coarse) {
+  #c-dot, #c-ring { display: none; }
+  body { cursor: auto; }
+}
+
+/* ── Tablet (769px – 1024px) ─────────────────────────── */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .nav-inner { padding: 1.4rem 2.5rem; }
+  .nav-links { gap: 1.8rem; }
+  .nav-links a { font-size: 0.6rem; }
+
+  .hero-panel { transition: none; }
+  #hero.h-left  #panel-l,
+  #hero.h-right #panel-r { flex-grow: 1; }
+  .panel-caption {
+    opacity: 1 !important; transform: translateY(0) !important;
+    pointer-events: auto !important; min-width: 180px; padding: 1rem 1.2rem;
+  }
+  .panel-caption-l { left: 1.5rem; bottom: 1.5rem; }
+  .panel-caption-r { right: 1.5rem; bottom: 1.5rem; }
+  .cap-name { font-size: 0.85rem; }
+  .hero-title { font-size: clamp(3.5rem, 7.5vw, 6.5rem); }
+
+  /* Bento: 2 columns on tablet */
+  .bento-section,
+  .bento-dark-section,
+  .bento-warm-section { padding: 3rem 40px 4rem; }
+
+  .bento-grid { grid-template-columns: repeat(2, 1fr); }
+  .bga        { grid-template-columns: repeat(2, 1fr); }
+  .bc-s2      { grid-column: span 2; }
+
+  /* Host grid — stack portrait full-width then 2-col stats */
+  .bgh > :nth-child(1) { grid-column: 1 / 3; grid-row: auto; }
+  .bgh > :nth-child(2) { grid-column: 1 / 3; }
+  .bgh > :nth-child(3) { grid-column: 1; }
+  .bgh > :nth-child(4) { grid-column: 2; }
+
+  /* Reviews grid */
+  .bgr > :nth-child(1) { grid-column: 1; }
+  .bgr > :nth-child(2) { grid-column: 2; }
+  .bgr > :nth-child(3) { grid-column: 1 / 3; }
+  .bgr > :nth-child(4) { grid-column: 1 / 3; }
+
+  /* CTA grid */
+  .bgc > :nth-child(1) { grid-column: 1; }
+  .bgc > :nth-child(2) { grid-column: 2; }
+
+  /* Height reductions */
+  .bc-h500 { min-height: 380px; }
+  .bc-h420 { min-height: 320px; }
+  .bc-h280 { min-height: 240px; }
+  .bc-h240 { min-height: 200px; }
+
+  .bc-h { font-size: clamp(1.5rem, 2.2vw, 2.5rem); }
+  .n6 { font-size: 4.5rem; }
+  .n5 { font-size: 4rem; }
+  .n4 { font-size: 3rem; }
+  .n35 { font-size: 2.5rem; }
+
+  footer { padding: 3rem 2.5rem; }
+}
+
+/* ── Mobile (≤ 768px) ───────────────────────────────── */
+@media (max-width: 768px) {
+  html, body { overflow-x: hidden; }
+  body { font-size: 16px; line-height: 1.6; }
+
+  [data-r]         { transition-duration: 0.5s !important; }
+  [data-r="left"]  { transform: translateY(30px) !important; }
+  [data-r="right"] { transform: translateY(30px) !important; }
+  [data-r].vis     { opacity: 1; transform: none !important; }
+
+  .nav-inner { padding: 1rem 1.5rem; }
+  .nav-links { display: none; }
+  .hamburger { display: flex; }
+
+  #panel-r, .hero-divider { display: none; }
+  #panel-l { flex-grow: 1 !important; }
+  .hero-mob-caps {
+    display: block; position: absolute;
+    bottom: 0; left: 0; right: 0; z-index: 10;
+  }
+  .hero-mob-cap {
+    background: var(--white); padding: 1rem 1.5rem;
+    display: flex; flex-direction: column; gap: 0.2rem;
+  }
+  .hero-mob-cap + .hero-mob-cap { border-top: 1px solid var(--warm-grey); }
+  .hero-mob-cap .cap-name { font-size: 0.9rem; }
+  .hero-mob-cap .cap-loc  { font-size: 0.55rem; }
+  .hero-mob-cap .cap-rat  { font-size: 0.8rem; }
+  .hero-title  { font-size: clamp(3rem, 14vw, 4.5rem); }
+  .hero-sub    { font-size: 0.58rem; letter-spacing: 0.28em; }
+  .hero-scroll { bottom: 188px; }
+
+  /* Bento: 1 column, 8px gap */
+  .bento-section,
+  .bento-dark-section,
+  .bento-warm-section { padding: 2.5rem 20px 3.5rem; }
+
+  .bento-grid { grid-template-columns: 1fr; gap: 8px; }
+  .bga        { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .bc-s2      { grid-column: 1; }
+
+  .bgh > :nth-child(1) { grid-column: 1; grid-row: auto; }
+  .bgh > :nth-child(2),
+  .bgh > :nth-child(3),
+  .bgh > :nth-child(4) { grid-column: 1; }
+
+  .bgr > :nth-child(1),
+  .bgr > :nth-child(2),
+  .bgr > :nth-child(3),
+  .bgr > :nth-child(4) { grid-column: 1; }
+
+  .bgc > :nth-child(1),
+  .bgc > :nth-child(2) { grid-column: 1; }
+
+  /* Heights */
+  .bc-h500 { min-height: 260px; }
+  .bc-h420 { min-height: 260px; }
+  .bc-h280 { min-height: 220px; }
+  .bc-h240 { min-height: 180px; }
+  .bc-h220 { min-height: 160px; }
+  .bc-h200 { min-height: 150px; }
+  .bc-h130 { min-height: 110px; }
+
+  /* Typography */
+  .bc-h   { font-size: clamp(1.4rem, 6vw, 2rem); }
+  .n6     { font-size: 3.5rem; }
+  .n5     { font-size: 3rem; }
+  .n4     { font-size: 2.5rem; }
+  .n35    { font-size: 2rem; }
+  .n25    { font-size: 1.8rem; }
+  .bc-stat { font-size: 2rem; }
+  .bc-body  { font-size: 0.875rem; }
+  .bc-quote { font-size: 0.95rem; }
+  .bc-am    { font-size: 0.8rem; }
+
+  .bc-pad, .bc-pad-start { padding: 1.5rem; }
+  .bc-bottom { padding: 1.5rem; }
+  .bc-center, .bc-mid { padding: 1.5rem; }
+
+  .amen-icon { width: 18px; height: 18px; }
+  .amen-lbl  { font-size: 0.72rem; }
+
+  .bc-link { min-height: 44px; display: inline-flex; align-items: center; }
+  .bc-btn  { min-height: 44px; width: 100%; justify-content: center; }
+
+  footer { padding: 3rem 1.5rem; }
+  .footer-inner { grid-template-columns: 1fr; text-align: center; gap: 2rem; }
+  .footer-nav {
+    flex-direction: row; flex-wrap: wrap;
+    justify-content: center; align-items: center; gap: 0.5rem 1.5rem;
+  }
+  .footer-nav a { min-height: 44px; display: inline-flex; align-items: center; }
+  .footer-copy    { text-align: center; }
+  .footer-tagline { display: block; margin-top: 0.3rem; }
+}
+
+/* ── Reduced Motion ──────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .panel-bg { animation: none; }
+  .hero-center { animation: none; opacity: 1; }
+  .scroll-line::after { animation: none; }
+  [data-r] { transition: opacity 0.3s !important; transform: none !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── Cursor ──────────────────────────────────────── -->
+<div id="c-dot"></div>
+<div id="c-ring"></div>
+
+<!-- ── Navigation ──────────────────────────────────── -->
+<nav id="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-brand">Joyce <em>Locations</em></a>
+    <div class="nav-links">
+      <a href="#granby">Logements</a>
+      <a href="#hote">À propos</a>
+      <a href="#equip">Équipements</a>
+      <a href="#avis">Avis</a>
+    </div>
+    <a href="#cta" class="nav-cta">Réserver</a>
+    <button class="hamburger" id="hamburger" aria-label="Ouvrir le menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ── Mobile Menu Overlay ───────────────────────────── -->
+<div class="mob-menu" id="mob-menu" aria-hidden="true" role="dialog" aria-label="Navigation">
+  <button class="mob-close" id="mob-close" aria-label="Fermer le menu">&#215;</button>
+  <nav class="mob-nav">
+    <a href="#granby"    class="mob-nav-link">Logements</a>
+    <a href="#hote"      class="mob-nav-link">À propos</a>
+    <a href="#equip"     class="mob-nav-link">Équipements</a>
+    <a href="#avis"      class="mob-nav-link">Avis</a>
+    <a href="#cta"       class="mob-cta-link">Réserver</a>
+  </nav>
+</div>
+
+<!-- ── Hero ────────────────────────────────────────── -->
+<section id="hero">
+  <div class="hero-panels">
+    <div class="hero-panel" id="panel-l">
+      <div class="panel-bg" style="background-image:url('https://a0.muscache.com/im/pictures/hosting/Hosting-1391133701334967423/original/7b72e745-8f84-477e-a893-85da6ede74ee.jpeg')"></div>
+      <div class="panel-overlay"></div>
+      <div class="panel-caption panel-caption-l">
+        <span class="cap-name">The Granby Urban Safari Suite</span>
+        <span class="cap-loc">Granby, Québec</span>
+        <span class="cap-rat">5.0</span>
+      </div>
+    </div>
+    <div class="hero-divider"></div>
+    <div class="hero-panel" id="panel-r">
+      <div class="panel-bg" style="background-image:url('https://a0.muscache.com/im/pictures/miso/Hosting-1159217637687308452/original/ffcb57f4-ea98-4f7f-8e0d-dac30ba0c838.jpeg')"></div>
+      <div class="panel-overlay"></div>
+      <div class="panel-caption panel-caption-r">
+        <span class="cap-name">The Gateway to the Laurentians</span>
+        <span class="cap-loc">Blainville, Québec</span>
+        <span class="cap-rat">5.0 &nbsp;·&nbsp; Coup de coeur voyageurs</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile captions — shown only on ≤ 768px -->
+  <div class="hero-mob-caps">
+    <div class="hero-mob-cap">
+      <span class="cap-name">The Granby Urban Safari Suite</span>
+      <span class="cap-loc">Granby, Québec</span>
+      <span class="cap-rat">5.0</span>
+    </div>
+    <div class="hero-mob-cap">
+      <span class="cap-name">The Gateway to the Laurentians</span>
+      <span class="cap-loc">Blainville, Québec</span>
+      <span class="cap-rat">5.0 &nbsp;·&nbsp; Coup de coeur voyageurs</span>
+    </div>
+  </div>
+
+  <div class="hero-center">
+    <h1 class="hero-title">JOYCE</h1>
+    <p class="hero-sub">Locations&nbsp;&nbsp;·&nbsp;&nbsp;Québec</p>
+  </div>
+
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span class="scroll-label">Découvrir</span>
+  </div>
+</section>
+
+<!-- ── Section 2 — Logements ─────────────────────────── -->
+<section id="granby" class="bento-section">
+  <div class="bento-lead" data-r="up">
+    <span class="eyebrow">Nos logements</span>
+  </div>
+  <div class="bento-grid">
+
+    <!-- A: Granby main — col 1-2 -->
+    <div class="bc bc-photo bc-s2 bc-h420" style="background-image:url('https://a0.muscache.com/im/pictures/hosting/Hosting-1391133701334967423/original/7b72e745-8f84-477e-a893-85da6ede74ee.jpeg')" data-r="up" data-d="0">
+      <div class="bc-ov"></div>
+      <div class="bc-bottom">
+        <span class="bc-ey">Granby, Québec</span>
+        <h2 class="bc-h">The Granby Urban Safari Suite</h2>
+        <a href="https://www.airbnb.ca/rooms/1391133701334967423" class="bc-link" target="_blank" rel="noopener">Réserver sur Airbnb &nbsp;&#8594;</a>
+      </div>
+    </div>
+
+    <!-- B: Rating dark -->
+    <div class="bc bc-dark bc-h420" data-r="up" data-d="80">
+      <div class="bc-center">
+        <span class="bc-num n5 bc-cu">5.0</span>
+        <span class="bc-lbl">Note parfaite</span>
+        <span class="bc-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+      </div>
+    </div>
+
+    <!-- C: Capacity warm -->
+    <div class="bc bc-warm bc-h200" data-r="up" data-d="0">
+      <div class="bc-pad">
+        <span class="bc-ey">Capacité</span>
+        <span class="bc-stat">6 voyageurs</span>
+        <span class="bc-sub">2 chambres &nbsp;·&nbsp; 3 lits</span>
+      </div>
+    </div>
+
+    <!-- D: Granby secondary — col 2-3 -->
+    <div class="bc bc-photo bc-s2 bc-h200" style="background-image:url('https://a0.muscache.com/im/pictures/hosting/Hosting-1391133701334967423/original/63576a7d-3595-4b13-ab6d-88e7cc9a5582.jpeg')" data-r="up" data-d="80">
+      <div class="bc-ov"></div>
+      <div class="bc-mid">
+        <span class="bc-am">Terrasse &nbsp;·&nbsp; Cuisine équipée &nbsp;·&nbsp; TV 55 pouces</span>
+      </div>
+    </div>
+
+    <!-- Separator — Granby / Blainville -->
+    <div class="bc-sep" aria-hidden="true">
+      <span class="bc-sep-text">— Nos deux logements —</span>
+    </div>
+
+    <!-- E: Blainville dark rating -->
+    <div class="bc bc-dark bc-h420" data-r="up" data-d="0">
+      <div class="bc-center">
+        <span class="bc-num n5 bc-cu">5.0</span>
+        <span class="bc-lbl">Coup de coeur voyageurs</span>
+        <span class="bc-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+      </div>
+    </div>
+
+    <!-- F: Blainville main — col 2-3 -->
+    <div class="bc bc-photo bc-s2 bc-h420" style="background-image:url('https://a0.muscache.com/im/pictures/miso/Hosting-1159217637687308452/original/ffcb57f4-ea98-4f7f-8e0d-dac30ba0c838.jpeg')" data-r="up" data-d="80">
+      <div class="bc-ov"></div>
+      <div class="bc-bottom">
+        <span class="bc-ey">Blainville, Québec</span>
+        <h2 class="bc-h">The Gateway to the Laurentians</h2>
+        <a href="https://www.airbnb.ca/rooms/1159217637687308452" class="bc-link" target="_blank" rel="noopener">Réserver sur Airbnb &nbsp;&#8594;</a>
+      </div>
+    </div>
+
+    <!-- G: Blainville secondary — col 1-2 -->
+    <div class="bc bc-photo bc-s2 bc-h200" style="background-image:url('https://a0.muscache.com/im/pictures/miso/Hosting-1159217637687308452/original/6e9662d5-35da-4d1f-bcdd-54b007befe94.jpeg')" loading="lazy" data-r="up" data-d="0">
+      <div class="bc-ov"></div>
+      <div class="bc-mid">
+        <span class="bc-am">2 voyageurs &nbsp;·&nbsp; 1 lit queen &nbsp;·&nbsp; Entrée privée</span>
+      </div>
+    </div>
+
+    <!-- H: Copper distance card -->
+    <div class="bc bc-copper bc-h200" data-r="up" data-d="80">
+      <div class="bc-center">
+        <span class="bc-num n35 bc-wh">20 min</span>
+        <span class="bc-lbl">des Laurentides</span>
+        <span class="bc-tiny">Saint-Sauveur · Ski · Nature</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── Section 3 — Hôtesse ───────────────────────────── -->
+<section id="hote" class="bento-section" style="background:var(--warm-grey)">
+  <div class="bento-lead" data-r="up">
+    <span class="eyebrow">Votre hôtesse</span>
+  </div>
+  <div class="bento-grid bgh">
+
+    <!-- A: Portrait card (spans 2 rows) -->
+    <div class="bc bc-photo bc-h500" style="background-image:url('https://a0.muscache.com/im/pictures/hosting/Hosting-1391133701334967423/original/7b72e745-8f84-477e-a893-85da6ede74ee.jpeg'); background-position: center top;" data-r="up" data-d="0">
+      <div class="bc-ov" style="background:linear-gradient(to top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.1) 60%)"></div>
+      <div class="bc-bottom">
+        <span style="display:block;font-family:var(--fd);font-style:italic;font-weight:300;font-size:3.5rem;color:var(--white);line-height:1;margin-bottom:0.3rem;">Joyce</span>
+        <span class="bc-lbl">Superhôte certifiée</span>
+      </div>
+    </div>
+
+    <!-- B: Bio text card -->
+    <div class="bc bc-white bc-h240" data-r="up" data-d="80">
+      <div class="bc-pad">
+        <span class="bc-ey">À propos</span>
+        <p class="bc-body">Superhôte certifiée avec une note parfaite de 5.0, Joyce est passionnée de voyages et met tout son soin à faire en sorte que chaque visiteur se sente pleinement chez soi. Chaque logement est pensé pour offrir confort, authenticité et un accueil irréprochable.</p>
+      </div>
+    </div>
+
+    <!-- C: Response rate -->
+    <div class="bc bc-dark bc-h240" data-r="up" data-d="0">
+      <div class="bc-center">
+        <span class="bc-num n35 bc-cu">100 %</span>
+        <span class="bc-lbl">Taux de réponse</span>
+      </div>
+    </div>
+
+    <!-- D: Experience -->
+    <div class="bc bc-copper bc-h240" data-r="up" data-d="80">
+      <div class="bc-center">
+        <span class="bc-num n35 bc-wh">2</span>
+        <span class="bc-lbl">Logements gérés</span>
+        <span class="bc-tiny">Granby · Blainville</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── Section 4 — Équipements ───────────────────────── -->
+<section id="equip" class="bento-dark-section">
+  <div class="bento-lead" data-r="up">
+    <span class="eyebrow" style="color:var(--muted)">Équipements</span>
+    <p class="bento-lead-title bento-lead-title-wh">Tout le confort dont vous avez besoin</p>
+  </div>
+  <div class="bga">
+
+      <!-- 1 Cuisine -->
+      <div class="bc bc-amen bc-h130" data-r="up" data-d="0">
+        <div class="bc-center">
+          <svg class="amen-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M6 3v4a2 2 0 0 0 4 0V3"/><line x1="8" y1="7" x2="8" y2="21"/>
+            <path d="M14 3h6v8h-6z"/><line x1="17" y1="11" x2="17" y2="21"/>
+          </svg>
+          <span class="amen-lbl">Cuisine équipée</span>
+        </div>
+      </div>
+
+      <!-- 2 WiFi -->
+      <div class="bc bc-amen bc-h130" data-r="up" data-d="80">
+        <div class="bc-center">
+          <svg class="amen-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M5 12.55a11 11 0 0 1 14.08 0"/>
+            <path d="M1.42 9A16 16 0 0 1 22.58 9"/>
+            <path d="M8.53 16.11a6 6 0 0 1 6.95 0"/>
+            <circle cx="12" cy="20" r="1" fill="currentColor" stroke="none"/>
+          </svg>
+          <span class="amen-lbl">Wi-Fi inclus</span>
+        </div>
+      </div>
+
+      <!-- 3 Parking -->
+      <div class="bc bc-amen bc-h130" data-r="up" data-d="160">
+        <div class="bc-center">
+          <svg class="amen-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="3" width="18" height="18"/>
+            <path d="M9 7h4.5a3 3 0 0 1 0 6H9V7z"/>
+            <line x1="9" y1="13" x2="9" y2="17"/>
+          </svg>
+          <span class="amen-lbl">Stationnement gratuit</span>
+        </div>
+      </div>
+
+      <!-- 4 TV -->
+      <div class="bc bc-amen bc-h130" data-r="up" data-d="240">
+        <div class="bc-center">
+          <svg class="amen-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="2" y="4" width="20" height="13"/>
+            <polyline points="8,21 12,17 16,21"/>
+          </svg>
+          <span class="amen-lbl">Télévision 55 pouces</span>
+        </div>
+      </div>
+
+      <!-- 5 Workspace -->
+      <div class="bc bc-amen bc-h130" data-r="up" data-d="0">
+        <div class="bc-center">
+          <svg class="amen-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="2" y="5" width="20" height="12"/><line x1="2" y1="20" x2="22" y2="20"/>
+            <line x1="12" y1="17" x2="12" y2="20"/>
+          </svg>
+          <span class="amen-lbl">Espace de travail</span>
+        </div>
+      </div>
+
+      <!-- 6 Key -->
+      <div class="bc bc-amen bc-h130" data-r="up" data-d="80">
+        <div class="bc-center">
+          <svg class="amen-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="7.5" cy="7.5" r="4.5"/>
+            <path d="M10.5 10.5L21 21"/>
+            <line x1="18" y1="18" x2="18" y2="21"/>
+            <line x1="21" y1="18" x2="18" y2="18"/>
+          </svg>
+          <span class="amen-lbl">Accès autonome</span>
+        </div>
+      </div>
+
+      <!-- 7 Door -->
+      <div class="bc bc-amen bc-h130" data-r="up" data-d="160">
+        <div class="bc-center">
+          <svg class="amen-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M4 3h16v18H4z"/>
+            <circle cx="15" cy="12" r="1" fill="currentColor" stroke="none"/>
+          </svg>
+          <span class="amen-lbl">Entrée privée</span>
+        </div>
+      </div>
+
+      <!-- 8 Quiet -->
+      <div class="bc bc-amen bc-h130" data-r="up" data-d="240">
+        <div class="bc-center">
+          <svg class="amen-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M17 8C8 10 5.9 16.17 3.82 19H9c3.5 0 6.5-2.5 8-6"/>
+            <path d="M17 8c1-3 1-5-5-5S5 8 5 8"/>
+            <line x1="12" y1="19" x2="12" y2="22"/>
+          </svg>
+          <span class="amen-lbl">Quartier calme</span>
+        </div>
+      </div>
+
+    </div>
+</section>
+
+<!-- ── Section 5 — Avis ──────────────────────────────── -->
+<section id="avis" class="bento-section">
+  <div class="bento-lead" data-r="up">
+    <span class="eyebrow">Avis voyageurs</span>
+    <p class="bento-lead-title">Ce que disent nos hôtes</p>
+  </div>
+  <div class="bento-grid bgr">
+
+    <!-- A — Score global -->
+    <div class="bc bc-copper bc-h280" data-r="up">
+      <div class="bc-center">
+        <span class="bc-num n6 bc-wh">5.0</span>
+        <span class="bc-sub bc-wh" style="opacity:0.8">sur 5</span>
+        <span class="bc-stars bc-stars-wh" style="margin-top:1rem;font-size:1rem">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+        <span class="bc-tiny" style="margin-top:0.75rem">Superhost certifiée</span>
+      </div>
+    </div>
+
+    <!-- B — Avis 1 -->
+    <div class="bc bc-white bc-h280" data-r="up" data-d="80">
+      <div class="bc-pad">
+        <p class="bc-quote">"Un logement exceptionnel — décoration soignée, espace lumineux et parfaitement équipé. Joyce est une hôtesse attentionnée qui pense à chaque détail. Une expérience qu'on voudrait répéter sans cesse."</p>
+        <p class="bc-reviewer" style="margin-top:auto;padding-top:1.5rem">Sophie M. <span class="bc-prop-nm">· The Granby Urban Safari Suite</span></p>
+      </div>
+    </div>
+
+    <!-- C — Avis 2 -->
+    <div class="bc bc-white bc-h240" data-r="up" data-d="0">
+      <div class="bc-pad">
+        <p class="bc-quote">"Le petit appartement de Joyce est un vrai coup de coeur. Calme, propre, chaleureux. La proximité des Laurentides est un atout indéniable. Communication parfaite et accueil irréprochable."</p>
+        <p class="bc-reviewer" style="margin-top:auto;padding-top:1.5rem">Marc-André L. <span class="bc-prop-nm">· The Gateway to the Laurentians</span></p>
+      </div>
+    </div>
+
+    <!-- D — Avis vérifiés count -->
+    <div class="bc bc-warm bc-h240" data-r="up" data-d="120">
+      <div class="bc-center">
+        <span class="bc-num n4 bc-dk">8</span>
+        <span class="bc-sub">avis vérifiés</span>
+        <span style="display:block;font-family:var(--fb);font-weight:200;font-size:0.58rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-top:0.75rem;line-height:1.7">Note parfaite · Propreté<br>Communication · Valeur</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── Section 6 — Réserver ──────────────────────────── -->
+<section id="cta" class="bento-warm-section">
+  <div class="bento-lead" data-r="up">
+    <span class="eyebrow">Réservation</span>
+    <p class="bento-lead-title">Choisissez votre prochaine escapade</p>
+  </div>
+  <div class="bento-grid bgc">
+
+    <!-- A — Properties list -->
+    <div class="bc bc-white bc-h420" data-r="left">
+      <div class="bc-pad" style="justify-content:flex-start;gap:1.5rem">
+        <div>
+          <span class="bc-ey">Granby, Québec</span>
+          <p style="font-family:var(--fd);font-style:italic;font-weight:300;font-size:1.7rem;color:var(--black);line-height:1.2;margin-bottom:0.5rem">The Granby Urban Safari Suite</p>
+          <span class="bc-sub">6 voyageurs &nbsp;·&nbsp; 3 chambres &nbsp;·&nbsp; Safari urbain</span>
+        </div>
+        <a href="https://www.airbnb.ca/rooms/1391133701334967423" class="bc-btn bc-btn-cu" target="_blank" rel="noopener" style="margin-top:0;align-self:flex-start">Voir sur Airbnb &nbsp;&#8594;</a>
+        <div style="border-top:1px solid var(--warm-grey);padding-top:1.5rem">
+          <span class="bc-ey">Blainville, Québec</span>
+          <p style="font-family:var(--fd);font-style:italic;font-weight:300;font-size:1.7rem;color:var(--black);line-height:1.2;margin-bottom:0.5rem">The Gateway to the Laurentians</p>
+          <span class="bc-sub">2 voyageurs &nbsp;·&nbsp; Studio &nbsp;·&nbsp; Portes des Laurentides</span>
+        </div>
+        <a href="https://www.airbnb.ca/rooms/1159217637687308452" class="bc-btn bc-btn-cu" target="_blank" rel="noopener" style="margin-top:0;align-self:flex-start">Voir sur Airbnb &nbsp;&#8594;</a>
+      </div>
+    </div>
+
+    <!-- B — Réserver card -->
+    <div class="bc bc-dark bc-h420" data-r="right">
+      <div class="bc-center">
+        <span class="bc-ey">Joyce Locations</span>
+        <p class="bc-h bc-wh" style="font-size:2rem;margin-top:0.5rem">Superhost<br><em>certifiée</em></p>
+        <span class="bc-stars bc-stars-wh" style="font-size:1.1rem;margin-top:1.25rem">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+        <span class="bc-sub" style="margin-top:0.5rem;color:rgba(255,255,255,0.55)">5.0 &nbsp;·&nbsp; 8 avis vérifiés</span>
+        <a href="https://www.airbnb.ca/rooms/1391133701334967423" class="bc-btn" style="margin-top:1.5rem" target="_blank" rel="noopener">Réserver maintenant</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── Footer ───────────────────────────────────────── -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <span class="footer-brand">Joyce <em>Locations</em></span>
+      <span class="footer-tagline">Granby &amp; Blainville, Québec</span>
+    </div>
+    <p class="footer-copy">&copy; 2026 Joyce Locations</p>
+    <nav class="footer-nav" aria-label="Pied de page">
+      <a href="#granby">Logements</a>
+      <a href="#hote">À propos</a>
+      <a href="#equip">Équipements</a>
+      <a href="#avis">Avis</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  const isMobile = () => window.innerWidth <= 768;
+  const isTablet = () => window.innerWidth > 768 && window.innerWidth <= 1024;
+  const hasFinePointer = window.matchMedia('(pointer: fine)').matches;
+
+  /* ── Custom Cursor (fine pointer only) ─────────── */
+  if (hasFinePointer) {
+    const dot  = document.getElementById('c-dot');
+    const ring = document.getElementById('c-ring');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      dot.style.left = mx + 'px';
+      dot.style.top  = my + 'px';
+    });
+
+    (function rafLoop() {
+      rx += (mx - rx) * 0.11;
+      ry += (my - ry) * 0.11;
+      ring.style.left = rx + 'px';
+      ring.style.top  = ry + 'px';
+      requestAnimationFrame(rafLoop);
+    })();
+
+    document.querySelectorAll('a, .bc-amen').forEach(el => {
+      el.addEventListener('mouseenter', () => ring.classList.add('hov'));
+      el.addEventListener('mouseleave', () => ring.classList.remove('hov'));
+    });
+  }
+
+  /* ── Navigation Scroll ──────────────────────────── */
+  const nav  = document.getElementById('nav');
+  const hero = document.getElementById('hero');
+
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > hero.offsetHeight - 100);
+  }, { passive: true });
+
+  /* ── Hero Panel Hover (desktop only, ≥ 1025px) ─── */
+  const panelL = document.getElementById('panel-l');
+  const panelR = document.getElementById('panel-r');
+
+  function attachHeroPanelHover() {
+    if (isMobile() || isTablet()) return;
+    panelL.addEventListener('mouseenter', () => {
+      hero.classList.add('h-left');
+      hero.classList.remove('h-right');
+    });
+    panelR.addEventListener('mouseenter', () => {
+      hero.classList.add('h-right');
+      hero.classList.remove('h-left');
+    });
+    hero.addEventListener('mouseleave', () => {
+      hero.classList.remove('h-left', 'h-right');
+    });
+  }
+  attachHeroPanelHover();
+
+  /* Re-evaluate on resize */
+  window.addEventListener('resize', () => {
+    if (isMobile() || isTablet()) {
+      hero.classList.remove('h-left', 'h-right');
+    }
+  }, { passive: true });
+
+  /* ── Hamburger Menu ─────────────────────────────── */
+  const hamburger = document.getElementById('hamburger');
+  const mobMenu   = document.getElementById('mob-menu');
+  const mobClose  = document.getElementById('mob-close');
+
+  function openMenu() {
+    mobMenu.classList.add('open');
+    hamburger.setAttribute('aria-expanded', 'true');
+    mobMenu.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeMenu() {
+    mobMenu.classList.remove('open');
+    hamburger.setAttribute('aria-expanded', 'false');
+    mobMenu.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  hamburger.addEventListener('click', openMenu);
+  mobClose.addEventListener('click', closeMenu);
+  mobMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
+
+  /* ── Scroll Reveal ──────────────────────────────── */
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const el = entry.target;
+      let delay = parseInt(el.dataset.d || 0, 10);
+      if (isMobile()) delay = Math.min(delay, 80);
+      setTimeout(() => el.classList.add('vis'), delay);
+      obs.unobserve(el);
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('[data-r]').forEach(el => obs.observe(el));
+
+})();
+</script>
+</body>
+</html>
