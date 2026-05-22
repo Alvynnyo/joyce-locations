@@ -1,0 +1,1356 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Joyce Locations — Granby &amp; Blainville, Québec</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
+<style>
+/* ── Variables ─────────────────────────────────────── */
+:root {
+  --bg:      #0d0b09;
+  --c1:      #161410;
+  --c2:      #1e1a15;
+  --copper:  #a0694a;
+  --gold:    #c9a06a;
+  --fd:      'Cormorant Garamond', serif;
+  --fb:      'Jost', sans-serif;
+  --ease:    cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --border:  1px solid rgba(255,255,255,0.07);
+}
+
+/* ── Reset ─────────────────────────────────────────── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: #fff;
+  font-family: var(--fb);
+  font-weight: 300;
+  cursor: none;
+  overflow-x: hidden;
+}
+img { display: block; }
+a { text-decoration: none; color: inherit; }
+
+/* ── Custom Cursor ─────────────────────────────────── */
+#c-dot {
+  position: fixed;
+  width: 8px; height: 8px;
+  background: var(--copper);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%,-50%);
+  transition: opacity 0.2s;
+}
+#c-ring {
+  position: fixed;
+  width: 34px; height: 34px;
+  border: 1px solid var(--copper);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%,-50%);
+  opacity: 0.55;
+  transition: width 0.35s var(--ease), height 0.35s var(--ease),
+              background-color 0.35s var(--ease), opacity 0.35s var(--ease);
+}
+#c-ring.hov {
+  width: 56px; height: 56px;
+  background: rgba(160,105,74,0.1);
+  opacity: 1;
+}
+
+/* ── Navigation ────────────────────────────────────── */
+#nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 200;
+  transition: background 0.5s var(--ease), border-color 0.5s var(--ease);
+  border-bottom: 1px solid transparent;
+}
+#nav.scrolled {
+  background: rgba(13,11,9,0.92);
+  border-color: rgba(255,255,255,0.06);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+.nav-inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 1.6rem 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nav-brand {
+  font-family: var(--fd);
+  font-weight: 500;
+  font-size: 1.1rem;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+}
+.nav-brand .bj { color: var(--copper); font-style: normal; }
+.nav-brand .bl { color: rgba(255,255,255,0.88); font-style: italic; }
+.nav-links { display: flex; gap: 2.5rem; }
+.nav-links a {
+  font-family: var(--fb);
+  font-weight: 200;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: rgba(255,255,255,0.5);
+  transition: color 0.3s;
+  cursor: pointer;
+}
+.nav-links a:hover { color: #fff; }
+.nav-cta {
+  font-family: var(--fb);
+  font-weight: 300;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--copper);
+  border: 1px solid var(--copper);
+  padding: 0.55rem 1.4rem;
+  transition: background 0.3s, color 0.3s;
+  cursor: pointer;
+}
+.nav-cta:hover { background: var(--copper); color: #0d0b09; }
+
+/* ── Hamburger ─────────────────────────────────────── */
+.nav-ham {
+  display: none;
+  flex-direction: column;
+  gap: 7px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+}
+.nav-ham span {
+  display: block;
+  width: 24px;
+  height: 1px;
+  background: #fff;
+  transition: transform 0.3s, opacity 0.3s;
+}
+
+/* ── Mobile Menu ───────────────────────────────────── */
+#mob {
+  position: fixed;
+  inset: 0;
+  background: rgba(13,11,9,0.97);
+  z-index: 300;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2.5rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s var(--ease);
+}
+#mob.open { opacity: 1; pointer-events: auto; }
+.mob-close {
+  position: absolute;
+  top: 1.6rem; right: 1.6rem;
+  font-family: var(--fb);
+  font-weight: 200;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: rgba(255,255,255,0.4);
+  cursor: pointer;
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.4);
+}
+.mob-link {
+  font-family: var(--fd);
+  font-style: italic;
+  font-weight: 300;
+  font-size: 2.6rem;
+  color: #fff;
+  transition: color 0.3s;
+  cursor: pointer;
+}
+.mob-link:hover { color: var(--copper); }
+.mob-cta {
+  font-family: var(--fb);
+  font-weight: 200;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--copper);
+  border: 1px solid var(--copper);
+  padding: 0.7rem 2rem;
+  margin-top: 0.5rem;
+  cursor: pointer;
+}
+
+/* ── Hero ──────────────────────────────────────────── */
+#hero {
+  position: relative;
+  height: 100vh;
+  min-height: 600px;
+  overflow: hidden;
+}
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background: url('https://a0.muscache.com/im/pictures/hosting/Hosting-1391133701334967423/original/7b72e745-8f84-477e-a893-85da6ede74ee.jpeg') center/cover no-repeat;
+  animation: kenBurns 12s var(--ease) forwards;
+  will-change: transform;
+}
+@keyframes kenBurns {
+  from { transform: scale(1.08); }
+  to   { transform: scale(1.0);  }
+}
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0,0,0,0.15) 0%,
+    rgba(0,0,0,0.0) 30%,
+    rgba(13,11,9,0.85) 100%
+  );
+}
+.hero-content {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 42%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0 2rem 4rem;
+  gap: 1rem;
+  z-index: 10;
+}
+.hero-ey {
+  font-family: var(--fb);
+  font-weight: 200;
+  font-size: 0.65rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--copper);
+  opacity: 0;
+  animation: fadeUp 0.8s var(--ease) 0.5s forwards;
+}
+.hero-title {
+  font-family: var(--fd);
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(3.5rem, 7vw, 7rem);
+  color: #fff;
+  line-height: 1.05;
+  opacity: 0;
+  animation: fadeUp 0.8s var(--ease) 0.8s forwards;
+}
+.hero-sub {
+  font-family: var(--fb);
+  font-weight: 200;
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.6);
+  max-width: 480px;
+  line-height: 1.65;
+  opacity: 0;
+  animation: fadeUp 0.8s var(--ease) 1.2s forwards;
+}
+.hero-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid rgba(255,255,255,0.2);
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 0.45rem 1.1rem;
+  border-radius: 100px;
+  font-family: var(--fb);
+  font-weight: 300;
+  font-size: 0.75rem;
+  color: #fff;
+  opacity: 0;
+  animation: fadeUp 0.8s var(--ease) 1.5s forwards;
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.hero-scroll {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  z-index: 10;
+}
+.scroll-line {
+  width: 1px;
+  height: 60px;
+  background: rgba(160,105,74,0.25);
+  position: relative;
+  overflow: hidden;
+}
+.scroll-line::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 45%;
+  background: var(--copper);
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+@keyframes scrollPulse {
+  0%   { transform: translateY(-100%); }
+  100% { transform: translateY(300%); }
+}
+.scroll-lbl {
+  font-family: var(--fb);
+  font-weight: 200;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  color: var(--copper);
+}
+
+/* ── Bento Shared ──────────────────────────────────── */
+.bento {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+.bc {
+  border-radius: 12px;
+  overflow: hidden;
+  border: var(--border);
+  position: relative;
+  min-height: 200px;
+}
+
+/* Photo card */
+.bc-ph {
+  position: relative;
+  overflow: hidden;
+}
+.bc-ph .ph-img {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transform: scale(1.06);
+  transition: transform 1.2s var(--ease);
+}
+.bc-ph.pv .ph-img  { transform: scale(1.0); }
+.bc-ph:hover .ph-img { transform: scale(1.05); transition-duration: 0.8s; }
+.ov-bot {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0) 45%);
+}
+.ov-mid {
+  position: absolute; inset: 0;
+  background: rgba(0,0,0,0.45);
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+  text-align: center;
+}
+.bc-bot {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 32px;
+}
+
+/* Eyebrow / heading shared */
+.bc-ey {
+  display: block;
+  font-family: var(--fb);
+  font-weight: 200;
+  font-size: 0.6rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--copper);
+  margin-bottom: 0.5rem;
+}
+.bc-h {
+  font-family: var(--fd);
+  font-style: italic;
+  font-weight: 300;
+  font-size: 2.2rem;
+  color: #fff;
+  line-height: 1.1;
+}
+.bc-meta {
+  display: block;
+  font-family: var(--fb);
+  font-weight: 200;
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.5);
+  margin-top: 8px;
+}
+.bc-lnk {
+  display: inline-block;
+  font-family: var(--fb);
+  font-weight: 300;
+  font-size: 0.72rem;
+  color: var(--copper);
+  margin-top: 14px;
+  cursor: pointer;
+}
+.bc-lnk::after {
+  content: '';
+  display: block;
+  height: 1px;
+  background: var(--copper);
+  width: 0;
+  transition: width 0.3s var(--ease);
+  margin-top: 2px;
+}
+.bc-lnk:hover::after { width: 100%; }
+
+/* Stat card */
+.bc-stat {
+  background: var(--c1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 24px;
+  text-align: center;
+}
+.s-num {
+  font-family: var(--fd);
+  font-weight: 300;
+  font-size: 6rem;
+  color: var(--gold);
+  line-height: 1;
+}
+.s-lbl {
+  font-family: var(--fb);
+  font-weight: 200;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+  margin-top: 4px;
+}
+.s-sub {
+  font-family: var(--fb);
+  font-weight: 200;
+  font-size: 0.65rem;
+  color: rgba(255,255,255,0.3);
+}
+.s-stars { font-size: 0.8rem; color: var(--copper); margin-top: 12px; }
+.s-div {
+  width: 40px; height: 1px;
+  background: rgba(160,105,74,0.3);
+  margin: 20px auto;
+}
+
+/* Amenity card */
+.bc-am {
+  background: var(--c2);
+  border: 1px solid rgba(160,105,74,0.2) !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 24px;
+  text-align: center;
+  gap: 8px;
+}
+.am-1 {
+  font-family: var(--fb);
+  font-weight: 200;
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.5);
+}
+.am-2 {
+  font-family: var(--fb);
+  font-weight: 200;
+  font-size: 0.68rem;
+  color: rgba(255,255,255,0.35);
+}
+
+/* Copper accent card */
+.bc-cu {
+  background: var(--copper);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 24px;
+  text-align: center;
+}
+.cu-n {
+  font-family: var(--fd);
+  font-weight: 300;
+  font-size: 3.5rem;
+  color: #fff;
+  line-height: 1;
+}
+.cu-l {
+  font-family: var(--fb);
+  font-weight: 200;
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.75);
+  margin-top: 6px;
+}
+.cu-s {
+  font-family: var(--fb);
+  font-weight: 200;
+  font-size: 0.65rem;
+  color: rgba(255,255,255,0.5);
+  margin-top: 8px;
+}
+
+/* Separator */
+.bento-sep {
+  grid-column: 1 / -1;
+  height: 60px;
+  background: transparent;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.sep-wrap {
+  position: relative;
+  width: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.sep-line { width: 100%; height: 1px; background: rgba(160,105,74,0.4); }
+.sep-dot {
+  position: absolute;
+  font-family: var(--fd);
+  font-size: 1.4rem;
+  color: var(--copper);
+  background: var(--bg);
+  padding: 0 8px;
+  line-height: 1;
+}
+
+/* ── Section 2 ─────────────────────────────────────── */
+#logements {
+  background: var(--bg);
+  padding: 100px 48px;
+}
+.sec-inner { max-width: 1440px; margin: 0 auto; }
+
+/* ── Section 3 — Hôtesse ───────────────────────────── */
+#hote {
+  background: var(--bg);
+  padding: 80px 48px;
+}
+.hote-text {
+  background: var(--c1);
+  border-radius: 12px;
+  border: var(--border);
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.hote-ey {
+  font-family: var(--fb);
+  font-weight: 200;
+  font-size: 0.6rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--copper);
+  margin-bottom: 1rem;
+}
+.hote-body {
+  font-family: var(--fb);
+  font-weight: 300;
+  font-size: 0.9rem;
+  line-height: 1.85;
+  color: rgba(255,255,255,0.65);
+}
+
+/* ── Section 4 — Équipements ───────────────────────── */
+#equip {
+  background: var(--c1);
+  padding: 80px 48px;
+}
+.eq-ey {
+  display: block;
+  text-align: center;
+  font-family: var(--fb);
+  font-weight: 200;
+  font-size: 0.6rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--copper);
+  margin-bottom: 0.9rem;
+}
+.eq-title {
+  display: block;
+  text-align: center;
+  font-family: var(--fd);
+  font-style: italic;
+  font-weight: 300;
+  font-size: 2.8rem;
+  color: #fff;
+  margin-bottom: 48px;
+  line-height: 1.15;
+}
+.eq-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.eq-card {
+  background: var(--c2);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 12px;
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 20px;
+  transition: border-color 0.3s, background 0.3s;
+  cursor: default;
+}
+.eq-card:hover {
+  border-color: rgba(160,105,74,0.5);
+  background: rgba(160,105,74,0.08);
+}
+.eq-card svg { width: 28px; height: 28px; }
+.eq-lbl {
+  font-family: var(--fb);
+  font-weight: 300;
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.7);
+  text-align: center;
+}
+
+/* ── Section 5 — Avis ──────────────────────────────── */
+#avis {
+  background: var(--bg);
+  padding: 80px 48px;
+}
+.av-score {
+  background: var(--copper);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 24px;
+  text-align: center;
+  min-height: 300px;
+  border: none;
+}
+.av-big {
+  font-family: var(--fd);
+  font-weight: 300;
+  font-size: 7rem;
+  color: #fff;
+  line-height: 1;
+}
+.av-den {
+  font-family: var(--fd);
+  font-weight: 300;
+  font-size: 2rem;
+  color: rgba(255,255,255,0.6);
+}
+.av-stars { font-size: 0.9rem; color: #fff; margin-top: 8px; }
+.av-lbl {
+  font-family: var(--fb);
+  font-weight: 200;
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.6);
+  margin-top: 6px;
+}
+.rev-card {
+  background: var(--c1);
+  border-radius: 12px;
+  border: var(--border);
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.rev-stars { font-size: 0.8rem; color: var(--copper); }
+.rev-q {
+  font-family: var(--fd);
+  font-style: italic;
+  font-weight: 300;
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: rgba(255,255,255,0.85);
+  margin: 14px 0;
+}
+.rev-auth {
+  font-family: var(--fb);
+  font-weight: 300;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: #fff;
+}
+.rev-prop {
+  font-family: var(--fb);
+  font-weight: 200;
+  font-size: 0.6rem;
+  color: var(--copper);
+  margin-top: 4px;
+}
+.av-count {
+  background: var(--c1);
+  border-radius: 12px;
+  border: var(--border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 24px;
+  text-align: center;
+  min-height: 240px;
+}
+.av-cn {
+  font-family: var(--fd);
+  font-weight: 300;
+  font-size: 5rem;
+  color: var(--gold);
+  line-height: 1;
+}
+.av-cl {
+  font-family: var(--fb);
+  font-weight: 200;
+  font-size: 0.7rem;
+  color: rgba(255,255,255,0.4);
+  margin-top: 8px;
+}
+.av-cdiv {
+  width: 40px; height: 1px;
+  background: rgba(160,105,74,0.4);
+  margin: 16px auto;
+}
+.av-cats {
+  font-family: var(--fb);
+  font-weight: 200;
+  font-size: 0.62rem;
+  color: rgba(255,255,255,0.3);
+  margin-top: 12px;
+  line-height: 1.6;
+}
+
+/* ── Section 6 — CTA ───────────────────────────────── */
+#cta {
+  position: relative;
+  padding: 120px 48px;
+  text-align: center;
+  overflow: hidden;
+}
+.cta-bg {
+  position: absolute; inset: 0;
+  background: url('https://a0.muscache.com/im/pictures/miso/Hosting-1159217637687308452/original/6e9662d5-35da-4d1f-bcdd-54b007befe94.jpeg') center/cover no-repeat;
+}
+.cta-ov { position: absolute; inset: 0; background: rgba(0,0,0,0.75); }
+.cta-cnt { position: relative; z-index: 2; }
+.cta-title {
+  font-family: var(--fd);
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(2.2rem, 4vw, 3.5rem);
+  color: #fff;
+  margin-bottom: 1rem;
+  line-height: 1.1;
+}
+.cta-sub {
+  font-family: var(--fb);
+  font-weight: 200;
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.55);
+  margin-bottom: 48px;
+}
+.cta-cards {
+  display: inline-flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.cta-card {
+  background: rgba(13,11,9,0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
+  padding: 28px 36px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 280px;
+}
+.cta-cn {
+  font-family: var(--fd);
+  font-style: italic;
+  font-weight: 300;
+  font-size: 1.4rem;
+  color: #fff;
+}
+.cta-cm {
+  font-family: var(--fb);
+  font-weight: 200;
+  font-size: 0.7rem;
+  color: rgba(255,255,255,0.45);
+}
+.cta-btn {
+  display: inline-block;
+  margin-top: 14px;
+  font-family: var(--fb);
+  font-weight: 300;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--copper);
+  border: 1px solid var(--copper);
+  padding: 0.55rem 1.2rem;
+  transition: background 0.3s, color 0.3s;
+  cursor: pointer;
+  align-self: flex-start;
+}
+.cta-btn:hover { background: var(--copper); color: #0d0b09; }
+
+/* ── Footer ────────────────────────────────────────── */
+#footer {
+  background: #080705;
+  padding: 48px;
+}
+.foot-inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  align-items: center;
+  gap: 2rem;
+}
+.foot-brand {
+  font-family: var(--fd);
+  font-weight: 500;
+  font-size: 1rem;
+}
+.fj { color: var(--copper); font-style: italic; }
+.fl { color: rgba(255,255,255,0.5); }
+.foot-tag {
+  display: block;
+  font-family: var(--fb);
+  font-weight: 200;
+  font-size: 0.62rem;
+  color: rgba(255,255,255,0.3);
+  margin-top: 6px;
+  letter-spacing: 0.05em;
+}
+.foot-copy {
+  text-align: center;
+  font-family: var(--fb);
+  font-weight: 200;
+  font-size: 0.65rem;
+  color: rgba(255,255,255,0.2);
+}
+.foot-links {
+  display: flex;
+  gap: 1.8rem;
+  justify-content: flex-end;
+}
+.foot-links a {
+  font-family: var(--fb);
+  font-weight: 200;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(255,255,255,0.35);
+  transition: color 0.3s;
+  cursor: pointer;
+}
+.foot-links a:hover { color: var(--copper); }
+
+/* ── Scroll Reveals ────────────────────────────────── */
+[data-r] {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+}
+[data-r].vis { opacity: 1; transform: none; }
+
+/* ── Responsive: Mobile ────────────────────────────── */
+@media (max-width: 768px) {
+  body { cursor: auto; }
+  #c-dot, #c-ring { display: none; }
+  .nav-links, .nav-cta { display: none; }
+  .nav-ham { display: flex; }
+  .nav-inner { padding: 1.2rem 1.25rem; }
+
+  #logements, #hote, #avis { padding: 60px 20px; }
+  #equip, #cta { padding: 60px 20px; }
+  #footer { padding: 36px 20px; }
+
+  .bento { grid-template-columns: 1fr; gap: 8px; }
+  .bc-ph { min-height: 280px !important; }
+  .bc-stat { min-height: 180px !important; }
+  .bc-am, .bc-cu { min-height: 160px !important; }
+  .bento-sep { display: none; }
+
+  .hero-title { font-size: clamp(2.8rem, 10vw, 4rem); }
+
+  .eq-grid { grid-template-columns: repeat(2, 1fr); }
+  .eq-title { font-size: 2rem; }
+
+  .cta-cards { flex-direction: column; align-items: center; }
+  .cta-card { width: 100%; max-width: 340px; min-width: unset; }
+  .cta-title { font-size: 2rem; }
+
+  .foot-inner { grid-template-columns: 1fr; text-align: center; }
+  .foot-links { justify-content: center; }
+
+  #hote .bento { grid-template-rows: auto !important; }
+}
+
+/* ── Responsive: Tablet ────────────────────────────── */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .bento { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .bc-ph { min-height: 320px !important; }
+
+  #logements, #hote, #avis { padding: 80px 40px; }
+  #equip { padding: 80px 40px; }
+  .eq-grid { grid-template-columns: repeat(2, 1fr); }
+  .eq-title { font-size: 2.4rem; }
+
+  .hero-title { font-size: clamp(3rem, 6vw, 5.5rem); }
+
+  .foot-inner { gap: 1.5rem; }
+}
+
+/* ── Reduced Motion ────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .hero-bg { animation: none; }
+  [data-r] { transition: none; opacity: 1; transform: none; }
+  .bc-ph .ph-img { transition: none; }
+  .scroll-line::after { animation: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- Cursor -->
+<div id="c-dot"></div>
+<div id="c-ring"></div>
+
+<!-- Navigation -->
+<nav id="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-brand"><span class="bj">Joyce</span> <span class="bl">Locations</span></a>
+    <div class="nav-links">
+      <a href="#logements">Logements</a>
+      <a href="#hote">À propos</a>
+      <a href="#equip">Équipements</a>
+      <a href="#avis">Avis</a>
+    </div>
+    <a href="#cta" class="nav-cta">Réserver</a>
+    <button class="nav-ham" id="nav-ham" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div id="mob" role="dialog" aria-modal="true" aria-label="Navigation">
+  <button class="mob-close" id="mob-close">Fermer</button>
+  <a href="#logements" class="mob-link" onclick="closeMob()">Logements</a>
+  <a href="#hote"      class="mob-link" onclick="closeMob()">À propos</a>
+  <a href="#equip"     class="mob-link" onclick="closeMob()">Équipements</a>
+  <a href="#avis"      class="mob-link" onclick="closeMob()">Avis</a>
+  <a href="#cta"       class="mob-cta"  onclick="closeMob()">Réserver</a>
+</div>
+
+<!-- ── Hero ──────────────────────────────────────────── -->
+<section id="hero" aria-label="En-tête">
+  <div class="hero-bg" aria-hidden="true"></div>
+  <div class="hero-overlay" aria-hidden="true"></div>
+  <div class="hero-content">
+    <span class="hero-ey">Granby &amp; Blainville, Québec</span>
+    <h1 class="hero-title">Des séjours qui<br>marquent l'âme.</h1>
+    <p class="hero-sub">Deux logements d'exception. Une hôtesse passionnée. Une note parfaite.</p>
+    <div class="hero-pill" role="img" aria-label="5 étoiles, Superhôte certifiée">
+      ★★★★★&nbsp;&nbsp;5.0 · Superhôte certifiée
+    </div>
+  </div>
+  <div class="hero-scroll" aria-hidden="true">
+    <div class="scroll-line"></div>
+    <span class="scroll-lbl">Découvrir</span>
+  </div>
+</section>
+
+<!-- ── Section 2 — Logements ─────────────────────────── -->
+<section id="logements" aria-label="Nos logements">
+  <div class="sec-inner">
+    <div class="bento">
+
+      <!-- A: Granby hero — col 1–2 -->
+      <div class="bc bc-ph" style="grid-column:1/3;min-height:480px;" data-r="up">
+        <img class="ph-img" src="https://a0.muscache.com/im/pictures/hosting/Hosting-1391133701334967423/original/7b72e745-8f84-477e-a893-85da6ede74ee.jpeg" alt="The Granby Urban Safari Suite — vue extérieure">
+        <div class="ov-bot" aria-hidden="true"></div>
+        <div class="bc-bot">
+          <span class="bc-ey">Granby, Québec</span>
+          <h2 class="bc-h">The Granby Urban Safari Suite</h2>
+          <span class="bc-meta">6 voyageurs · 2 chambres · 3 lits</span>
+          <a href="https://www.airbnb.ca/rooms/1391133701334967423" class="bc-lnk" target="_blank" rel="noopener">Réserver sur Airbnb →</a>
+        </div>
+      </div>
+
+      <!-- B: Granby stat — col 3 -->
+      <div class="bc bc-stat" style="min-height:480px;" data-r="up">
+        <div class="s-num">5.0</div>
+        <div class="s-lbl">Note parfaite</div>
+        <div class="s-stars" aria-label="5 étoiles">★★★★★</div>
+        <div class="s-div"></div>
+        <div class="s-sub">3 avis vérifiés</div>
+      </div>
+
+      <!-- C: Granby amenities — col 1 -->
+      <div class="bc bc-am" style="min-height:200px;" data-r="up">
+        <span class="am-1">Terrasse · Cuisine · TV 55"</span>
+        <span class="am-2">Accès autonome · Wi-Fi · Stationnement</span>
+      </div>
+
+      <!-- D: Granby interior — col 2–3 -->
+      <div class="bc bc-ph" style="grid-column:2/4;min-height:200px;" data-r="up">
+        <img class="ph-img" src="https://a0.muscache.com/im/pictures/hosting/Hosting-1391133701334967423/original/63576a7d-3595-4b13-ab6d-88e7cc9a5582.jpeg" alt="Intérieur — Granby">
+        <div class="ov-mid" aria-hidden="true">
+          <span style="font-family:var(--fd);font-style:italic;font-weight:300;font-size:1.6rem;color:#fff;">À deux pas du Zoo de Granby</span>
+        </div>
+      </div>
+
+      <!-- Separator -->
+      <div class="bento-sep" aria-hidden="true">
+        <div class="sep-wrap">
+          <div class="sep-line"></div>
+          <span class="sep-dot">·</span>
+        </div>
+      </div>
+
+      <!-- E: Blainville stat — col 1 -->
+      <div class="bc bc-stat" style="min-height:480px;" data-r="up">
+        <div class="s-num">5.0</div>
+        <div class="s-lbl">Coup de cœur</div>
+        <div class="s-sub" style="margin-top:6px;">Voyageurs Airbnb</div>
+        <div class="s-stars" aria-label="5 étoiles">★★★★★</div>
+        <div class="s-div"></div>
+        <div class="s-sub">5 avis vérifiés</div>
+      </div>
+
+      <!-- F: Blainville hero — col 2–3 -->
+      <div class="bc bc-ph" style="grid-column:2/4;min-height:480px;" data-r="up">
+        <img class="ph-img" src="https://a0.muscache.com/im/pictures/miso/Hosting-1159217637687308452/original/ffcb57f4-ea98-4f7f-8e0d-dac30ba0c838.jpeg" alt="The Gateway to the Laurentians — vue principale">
+        <div class="ov-bot" aria-hidden="true"></div>
+        <div class="bc-bot">
+          <span class="bc-ey">Blainville, Québec</span>
+          <h2 class="bc-h">The Gateway to the Laurentians</h2>
+          <span class="bc-meta">2 voyageurs · 1 chambre · 1 lit queen</span>
+          <a href="https://www.airbnb.ca/rooms/1159217637687308452" class="bc-lnk" target="_blank" rel="noopener">Réserver sur Airbnb →</a>
+        </div>
+      </div>
+
+      <!-- G: Blainville exterior — col 1–2 -->
+      <div class="bc bc-ph" style="grid-column:1/3;min-height:200px;" data-r="up">
+        <img class="ph-img" src="https://a0.muscache.com/im/pictures/miso/Hosting-1159217637687308452/original/6e9662d5-35da-4d1f-bcdd-54b007befe94.jpeg" alt="Entrée privée — quartier calme, Blainville">
+        <div class="ov-mid" aria-hidden="true">
+          <span style="font-family:var(--fb);font-weight:200;font-size:0.8rem;color:#fff;letter-spacing:0.06em;">Entrée privée · Quartier calme · Nature</span>
+        </div>
+      </div>
+
+      <!-- H: Blainville distance — col 3 -->
+      <div class="bc bc-cu" style="min-height:200px;" data-r="up">
+        <div class="cu-n">20 min</div>
+        <div class="cu-l">des Laurentides</div>
+        <div class="cu-s">Saint-Sauveur · Ski · Randonnée</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── Section 3 — Hôtesse ───────────────────────────── -->
+<section id="hote" aria-label="Votre hôtesse">
+  <div class="sec-inner">
+    <div class="bento" style="grid-template-rows:260px 260px;">
+
+      <!-- A: Joyce portrait — col 1, row 1–2 -->
+      <div class="bc bc-ph" style="grid-column:1;grid-row:1/3;min-height:520px;" data-r="up">
+        <img class="ph-img" src="https://a0.muscache.com/im/pictures/hosting/Hosting-1391133701334967423/original/122f3a51-e9a6-47cc-944f-3ee2a5809908.jpeg" alt="Joyce, Superhôte certifiée">
+        <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.7) 0%,rgba(0,0,0,0) 55%);" aria-hidden="true"></div>
+        <div class="bc-bot">
+          <span style="font-family:var(--fd);font-style:italic;font-weight:300;font-size:3rem;color:#fff;display:block;line-height:1;">Joyce</span>
+          <span style="font-family:var(--fb);font-weight:200;font-size:0.7rem;color:var(--copper);display:block;margin-top:6px;letter-spacing:0.1em;">Superhôte certifiée</span>
+        </div>
+      </div>
+
+      <!-- B: Bio — col 2–3, row 1 -->
+      <div class="bc hote-text" style="grid-column:2/4;grid-row:1;" data-r="up">
+        <div class="hote-ey">Votre hôtesse</div>
+        <p class="hote-body">Passionnée de voyages et d'exploration, Joyce est une Superhôte certifiée avec une note parfaite de 5.0. Elle met tout son soin à faire en sorte que chaque visiteur se sente pleinement chez soi dès son arrivée.</p>
+      </div>
+
+      <!-- C: Response rate — col 2, row 2 -->
+      <div class="bc bc-stat" style="grid-column:2;grid-row:2;" data-r="up">
+        <div style="font-family:var(--fd);font-weight:300;font-size:3.5rem;color:var(--gold);line-height:1;">100%</div>
+        <div class="s-lbl">Taux de réponse</div>
+      </div>
+
+      <!-- D: Experience — col 3, row 2 -->
+      <div class="bc bc-cu" style="grid-column:3;grid-row:2;" data-r="up">
+        <div style="font-family:var(--fd);font-weight:300;font-size:3rem;color:#fff;line-height:1;">2 ans</div>
+        <div style="font-family:var(--fb);font-weight:200;font-size:0.7rem;color:rgba(255,255,255,0.75);margin-top:6px;">d'expérience</div>
+        <div style="font-family:var(--fb);font-weight:200;font-size:0.62rem;color:rgba(255,255,255,0.55);margin-top:6px;">en tant que Superhôte</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── Section 4 — Équipements ───────────────────────── -->
+<section id="equip" aria-label="Équipements">
+  <div class="sec-inner">
+    <span class="eq-ey">Équipements</span>
+    <span class="eq-title">Tout le confort dont vous avez besoin</span>
+    <div class="eq-grid">
+
+      <div class="eq-card" data-r="up">
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="9" y1="3" x2="9" y2="13"></line>
+          <line x1="15" y1="3" x2="15" y2="13"></line>
+          <path d="M7 13c0 2.2 1.3 3.8 2 5l1 3h4l1-3c0.7-1.2 2-2.8 2-5H7z"></path>
+        </svg>
+        <span class="eq-lbl">Cuisine</span>
+      </div>
+
+      <div class="eq-card" data-r="up">
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M5 12.55a11 11 0 0 1 14 0"></path>
+          <path d="M1.42 9a16 16 0 0 1 21.16 0"></path>
+          <path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path>
+          <circle cx="12" cy="20" r="1" fill="white" stroke="none"></circle>
+        </svg>
+        <span class="eq-lbl">Wi-Fi</span>
+      </div>
+
+      <div class="eq-card" data-r="up">
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="9"></circle>
+          <text x="12" y="17" text-anchor="middle" font-family="Georgia, serif" font-size="11" fill="white" stroke="none">P</text>
+        </svg>
+        <span class="eq-lbl">Stationnement</span>
+      </div>
+
+      <div class="eq-card" data-r="up">
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="2" y="4" width="20" height="14" rx="2"></rect>
+          <line x1="8" y1="21" x2="16" y2="21"></line>
+          <line x1="12" y1="18" x2="12" y2="21"></line>
+        </svg>
+        <span class="eq-lbl">Télévision</span>
+      </div>
+
+      <div class="eq-card" data-r="up">
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="3" y="6" width="18" height="12" rx="2"></rect>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+        </svg>
+        <span class="eq-lbl">Espace de travail</span>
+      </div>
+
+      <div class="eq-card" data-r="up">
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="7.5" cy="12" r="3.5"></circle>
+          <line x1="11" y1="12" x2="20" y2="12"></line>
+          <path d="M17 9l3 3-3 3"></path>
+        </svg>
+        <span class="eq-lbl">Accès autonome</span>
+      </div>
+
+      <div class="eq-card" data-r="up">
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="4" y="2" width="14" height="20" rx="1"></rect>
+          <circle cx="15" cy="12" r="1.2" fill="white" stroke="none"></circle>
+        </svg>
+        <span class="eq-lbl">Entrée privée</span>
+      </div>
+
+      <div class="eq-card" data-r="up">
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 2C8.5 2 5 5.5 5.5 9.5c.6 3.3 2.8 5.2 6.5 7 3.7-1.8 5.9-3.7 6.5-7C19 5.5 15.5 2 12 2z"></path>
+        </svg>
+        <span class="eq-lbl">Environnement calme</span>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── Section 5 — Avis ───────────────────────────────── -->
+<section id="avis" aria-label="Avis des voyageurs">
+  <div class="sec-inner">
+    <div class="bento">
+
+      <!-- A: Score global — col 1 -->
+      <div class="av-score" data-r="up">
+        <span class="av-big">5.0</span>
+        <span class="av-den">/ 5</span>
+        <span class="av-stars" aria-label="5 étoiles">★★★★★</span>
+        <span class="av-lbl">Note parfaite</span>
+      </div>
+
+      <!-- B: Review 1 — col 2–3 -->
+      <div class="rev-card" style="grid-column:2/4;min-height:300px;" data-r="up">
+        <span class="rev-stars" aria-label="5 étoiles">★★★★★</span>
+        <p class="rev-q">"Un endroit magnifique, exactement comme sur les photos. Joyce est une hôtesse attentionnée et très réactive. L'accès est simple, l'appartement impeccable. On reviendra sans hésitation."</p>
+        <span class="rev-auth">Marie-Ève L.</span>
+        <span class="rev-prop">The Granby Urban Safari Suite</span>
+      </div>
+
+      <!-- C: Review 2 — col 1–2 -->
+      <div class="rev-card" style="grid-column:1/3;min-height:240px;" data-r="up">
+        <span class="rev-stars" aria-label="5 étoiles">★★★★★</span>
+        <p class="rev-q">"Séjour parfait à Blainville. Le logement est calme, bien équipé et l'entrée privée est un vrai plus. Joyce répond en quelques minutes. Idéal pour décompresser avant de filer dans les Laurentides."</p>
+        <span class="rev-auth">François D.</span>
+        <span class="rev-prop">The Gateway to the Laurentians</span>
+      </div>
+
+      <!-- D: Review count — col 3 -->
+      <div class="av-count" data-r="up">
+        <div class="av-cn">8</div>
+        <div class="av-cl">avis vérifiés</div>
+        <div class="av-cdiv"></div>
+        <div class="av-cats">Propreté · Précision<br>Localisation · Valeur</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── Section 6 — CTA ────────────────────────────────── -->
+<section id="cta" aria-label="Réserver un séjour">
+  <div class="cta-bg" aria-hidden="true"></div>
+  <div class="cta-ov" aria-hidden="true"></div>
+  <div class="cta-cnt">
+    <h2 class="cta-title" data-r="up">Choisissez votre prochaine escapade</h2>
+    <p class="cta-sub" data-r="up">Réservez directement sur Airbnb en quelques secondes.</p>
+    <div class="cta-cards">
+      <div class="cta-card" data-r="up">
+        <span class="cta-cn">The Granby Urban Safari Suite</span>
+        <span class="cta-cm">Granby, Québec · 6 voyageurs</span>
+        <a href="https://www.airbnb.ca/rooms/1391133701334967423" class="cta-btn" target="_blank" rel="noopener">Voir sur Airbnb</a>
+      </div>
+      <div class="cta-card" data-r="up">
+        <span class="cta-cn">The Gateway to the Laurentians</span>
+        <span class="cta-cm">Blainville, Québec · 2 voyageurs</span>
+        <a href="https://www.airbnb.ca/rooms/1159217637687308452" class="cta-btn" target="_blank" rel="noopener">Voir sur Airbnb</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Footer ─────────────────────────────────────────── -->
+<footer id="footer">
+  <div class="foot-inner">
+    <div>
+      <span class="foot-brand"><span class="fj">Joyce</span> <span class="fl">Locations</span></span>
+      <span class="foot-tag">Granby &amp; Blainville, Québec · Superhôte certifiée</span>
+    </div>
+    <p class="foot-copy">© 2025 Joyce Locations. Tous droits réservés.</p>
+    <nav class="foot-links" aria-label="Liens de pied de page">
+      <a href="#logements">Logements</a>
+      <a href="#hote">À propos</a>
+      <a href="#avis">Avis</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+/* ── Custom Cursor ─────────────────────────────────── */
+const dot  = document.getElementById('c-dot');
+const ring = document.getElementById('c-ring');
+let mx = 0, my = 0, rx = 0, ry = 0;
+
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  dot.style.left = mx + 'px';
+  dot.style.top  = my + 'px';
+});
+
+(function animRing() {
+  rx += (mx - rx) * 0.12;
+  ry += (my - ry) * 0.12;
+  ring.style.left = rx + 'px';
+  ring.style.top  = ry + 'px';
+  requestAnimationFrame(animRing);
+})();
+
+document.querySelectorAll('a, button').forEach(el => {
+  el.addEventListener('mouseenter', () => ring.classList.add('hov'));
+  el.addEventListener('mouseleave', () => ring.classList.remove('hov'));
+});
+
+/* ── Nav on scroll ─────────────────────────────────── */
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 50);
+}, { passive: true });
+
+/* ── Mobile menu ───────────────────────────────────── */
+const mob = document.getElementById('mob');
+document.getElementById('nav-ham').addEventListener('click', () => mob.classList.add('open'));
+document.getElementById('mob-close').addEventListener('click', closeMob);
+function closeMob() { mob.classList.remove('open'); }
+
+/* ── Scroll reveals with stagger ──────────────────── */
+const revObs = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('vis');
+      revObs.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.12 });
+
+document.querySelectorAll('.bento, .eq-grid, .cta-cnt').forEach(container => {
+  container.querySelectorAll('[data-r]').forEach((el, i) => {
+    el.style.transitionDelay = (i * 90) + 'ms';
+  });
+});
+
+document.querySelectorAll('[data-r]').forEach(el => revObs.observe(el));
+
+/* ── Photo enter animation ─────────────────────────── */
+const phObs = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('pv');
+      phObs.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.bc-ph').forEach(el => phObs.observe(el));
+</script>
+</body>
+</html>

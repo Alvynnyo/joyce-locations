@@ -681,6 +681,78 @@ footer {
 /* ── Hero Mobile Captions ────────────────────────────── */
 .hero-mob-caps { display: none; }
 
+/* ── Mobile-only content elements ───────────────────── */
+.mob-hero-content,
+.mob-stat-pills { display: none; }
+
+/* Mobile hero overlay */
+.mob-hero-pill {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #fff;
+  font-family: var(--fb);
+  font-weight: 300;
+  font-size: 0.72rem;
+  padding: 0.3rem 0.8rem;
+  border-radius: 100px;
+  letter-spacing: 0.04em;
+}
+.mob-hero-title {
+  font-family: var(--fd);
+  font-style: italic;
+  font-weight: 300;
+  font-size: 2.2rem;
+  color: #fff;
+  line-height: 1.1;
+  margin: 0;
+}
+.mob-hero-sub {
+  font-family: var(--fb);
+  font-weight: 200;
+  font-size: 0.7rem;
+  color: rgba(255,255,255,0.6);
+  margin: 0;
+}
+
+/* Mobile stat pills */
+.mob-stat-pill {
+  flex: 1;
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 16px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.msp-num {
+  font-family: var(--fd);
+  font-weight: 300;
+  font-size: 1.8rem;
+  color: var(--copper);
+  line-height: 1;
+  display: block;
+}
+.msp-text {
+  font-family: var(--fd);
+  font-weight: 300;
+  font-size: 1.4rem;
+  color: var(--black);
+  line-height: 1;
+  display: block;
+}
+.msp-lbl {
+  font-family: var(--fb);
+  font-weight: 200;
+  font-size: 0.65rem;
+  color: var(--muted);
+  display: block;
+}
+
 /* ── Touch Device: remove cursor ────────────────────── */
 @media (pointer: coarse) {
   #c-dot, #c-ring { display: none; }
@@ -745,45 +817,124 @@ footer {
   footer { padding: 3rem 2.5rem; }
 }
 
-/* ── Mobile (≤ 768px) ───────────────────────────────── */
+/* ── Mobile (≤ 768px) ─────────────────────────────────── */
 @media (max-width: 768px) {
-  html, body { overflow-x: hidden; }
-  body { font-size: 16px; line-height: 1.6; }
 
+  /* ── 1. BASE ─────────────────────────────────────── */
+  html, body { overflow-x: hidden; }
+  body {
+    background: #ebebeb;
+    font-size: 16px;
+    line-height: 1.6;
+    cursor: auto;
+  }
+  #c-dot, #c-ring { display: none; }
+
+  /* ── 2. SCROLL REVEALS ───────────────────────────── */
   [data-r]         { transition-duration: 0.5s !important; }
   [data-r="left"]  { transform: translateY(30px) !important; }
   [data-r="right"] { transform: translateY(30px) !important; }
   [data-r].vis     { opacity: 1; transform: none !important; }
 
-  .nav-inner { padding: 1rem 1.5rem; }
-  .nav-links { display: none; }
+  /* ── 3. NAVIGATION ───────────────────────────────── */
+  #nav,
+  #nav.scrolled {
+    background: #ffffff !important;
+    border-bottom: 1px solid rgba(0,0,0,0.08) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+  .nav-inner { height: 64px; padding: 0 20px; }
+  .nav-brand,
+  #nav.scrolled .nav-brand {
+    color: var(--copper) !important;
+    font-style: italic;
+  }
+  .nav-brand em { color: var(--copper); }
+  .nav-links,
+  .nav-cta { display: none !important; }
   .hamburger { display: flex; }
+  .hamburger span {
+    background: var(--black) !important;
+    width: 22px;
+    height: 2px;
+    border-radius: 1px;
+  }
 
-  #panel-r, .hero-divider { display: none; }
+  /* ── 4. HERO ─────────────────────────────────────── */
+  #hero {
+    height: 75vw !important;
+    max-height: 420px !important;
+    min-height: 240px !important;
+    border-radius: 20px !important;
+    overflow: hidden;
+    margin: 76px 16px 0 !important;
+  }
+  #panel-r, .hero-divider { display: none !important; }
   #panel-l { flex-grow: 1 !important; }
-  .hero-mob-caps {
-    display: block; position: absolute;
-    bottom: 0; left: 0; right: 0; z-index: 10;
-  }
-  .hero-mob-cap {
-    background: var(--white); padding: 1rem 1.5rem;
-    display: flex; flex-direction: column; gap: 0.2rem;
-  }
-  .hero-mob-cap + .hero-mob-cap { border-top: 1px solid var(--warm-grey); }
-  .hero-mob-cap .cap-name { font-size: 0.9rem; }
-  .hero-mob-cap .cap-loc  { font-size: 0.55rem; }
-  .hero-mob-cap .cap-rat  { font-size: 0.8rem; }
-  .hero-title  { font-size: clamp(3rem, 14vw, 4.5rem); }
-  .hero-sub    { font-size: 0.58rem; letter-spacing: 0.28em; }
-  .hero-scroll { bottom: 188px; }
+  .panel-overlay { background: rgba(0,0,0,0.42) !important; }
+  .hero-center  { display: none !important; }
+  .hero-scroll  { display: none !important; }
+  .hero-mob-caps { display: none !important; }
+  .panel-caption { opacity: 0 !important; pointer-events: none !important; }
 
-  /* Bento: 1 column, 8px gap */
+  /* Mobile hero overlay */
+  .mob-hero-content {
+    display: flex !important;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 24px;
+    z-index: 20;
+  }
+
+  /* Mobile stat pills */
+  .mob-stat-pills {
+    display: flex !important;
+    gap: 10px;
+    margin: 10px 16px 0;
+  }
+
+  /* ── 5. SECTION CONTAINERS ───────────────────────── */
   .bento-section,
-  .bento-dark-section,
-  .bento-warm-section { padding: 2.5rem 20px 3.5rem; }
+  .bento-warm-section {
+    background: transparent !important;
+    padding: 32px 0 !important;
+  }
+  /* Dark amenities section */
+  .bento-dark-section {
+    background: #1a1816 !important;
+    padding: 32px 0 !important;
+  }
+  /* Override inline warm-grey on host section */
+  #hote { background: transparent !important; }
 
-  .bento-grid { grid-template-columns: 1fr; gap: 8px; }
-  .bga        { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  /* CTA: full-bleed background image on mobile */
+  #cta {
+    background: url('https://a0.muscache.com/im/pictures/miso/Hosting-1159217637687308452/original/6e9662d5-35da-4d1f-bcdd-54b007befe94.jpeg') center/cover no-repeat #0d0b09 !important;
+    position: relative;
+    padding: 60px 16px !important;
+  }
+  #cta::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.72);
+    pointer-events: none;
+    z-index: 0;
+  }
+  #cta .bento-lead,
+  #cta .bento-grid { position: relative; z-index: 1; }
+
+  /* ── 6. SECTION LEAD ─────────────────────────────── */
+  .bento-lead { padding: 0 16px; margin-bottom: 1rem; }
+  .bento-lead-title { font-size: 1.5rem; }
+
+  /* ── 7. GRID COLLAPSE ────────────────────────────── */
+  .bento-grid { grid-template-columns: 1fr; gap: 0; }
+  .bga        { grid-template-columns: repeat(2, 1fr); gap: 8px; padding: 0 16px; }
   .bc-s2      { grid-column: 1; }
 
   .bgh > :nth-child(1) { grid-column: 1; grid-row: auto; }
@@ -799,7 +950,42 @@ footer {
   .bgc > :nth-child(1),
   .bgc > :nth-child(2) { grid-column: 1; }
 
-  /* Heights */
+  /* ── 8. BASE CARD STYLE ──────────────────────────── */
+  .bc {
+    border-radius: 20px !important;
+    border: none !important;
+    margin: 0 16px 10px !important;
+  }
+  /* Card backgrounds */
+  .bc-white  { background: #ffffff !important; }
+  .bc-warm   { background: #f5f3f0 !important; }
+  .bc-dark   { background: #1a1816 !important; }
+  .bc-copper { background: var(--copper) !important; }
+  /* Amenity cards: translucent on dark background */
+  .bc-amen {
+    background: rgba(255,255,255,0.06) !important;
+    border: 1px solid rgba(255,255,255,0.08) !important;
+    border-radius: 16px !important;
+    margin: 0 !important;
+  }
+  .bc-amen:active {
+    background: rgba(160,105,74,0.15) !important;
+    border-color: var(--copper) !important;
+  }
+
+  /* ── 9. SEPARATOR CARD ───────────────────────────── */
+  .bc-sep {
+    grid-column: 1 !important;
+    background: #ffffff !important;
+    border-radius: 20px !important;
+    margin: 0 16px 10px !important;
+    min-height: 56px !important;
+    height: 56px !important;
+  }
+  .bc-sep::before { left: 24px; right: 24px; }
+  .bc-sep-text    { background: #ffffff; padding: 0 1rem; }
+
+  /* ── 10. CARD HEIGHTS ────────────────────────────── */
   .bc-h500 { min-height: 260px; }
   .bc-h420 { min-height: 260px; }
   .bc-h280 { min-height: 220px; }
@@ -808,37 +994,114 @@ footer {
   .bc-h200 { min-height: 150px; }
   .bc-h130 { min-height: 110px; }
 
-  /* Typography */
+  /* ── 11. HOST SECTION — side-by-side stats ───────── */
+  #hote .bento-grid.bgh {
+    grid-template-columns: 1fr 1fr;
+    padding: 0 16px;
+    gap: 10px;
+  }
+  #hote .bgh > :nth-child(1) {
+    grid-column: 1 / 3 !important;
+    grid-row: 1 !important;
+    aspect-ratio: 1 / 1;
+    min-height: unset !important;
+  }
+  #hote .bgh > :nth-child(2) {
+    grid-column: 1 / 3 !important;
+    grid-row: 2 !important;
+  }
+  #hote .bgh > :nth-child(3) {
+    grid-column: 1 !important;
+    grid-row: 3 !important;
+    min-height: 120px !important;
+  }
+  #hote .bgh > :nth-child(4) {
+    grid-column: 2 !important;
+    grid-row: 3 !important;
+    min-height: 120px !important;
+  }
+  /* Grid handles spacing; remove individual card margins */
+  #hote .bc { margin: 0 !important; }
+
+  /* ── 12. REVIEWS — copper score card ────────────── */
+  #avis .bc-copper { padding: 32px !important; }
+
+  /* ── 13. CTA CARDS — dark glass on image ─────────── */
+  #cta .bc-white,
+  #cta .bc-dark {
+    background: rgba(13,11,9,0.85) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+  }
+  /* Override inline color:var(--black) on property name paragraphs */
+  #cta .bc-pad p  { color: rgba(255,255,255,0.9) !important; }
+  #cta .bc-ey     { color: var(--copper) !important; }
+  #cta .bc-sub    { color: rgba(255,255,255,0.55) !important; }
+  #cta .bc-h      { color: #fff !important; }
+  #cta .bc-pad > div[style*="border-top"] {
+    border-top-color: rgba(255,255,255,0.12) !important;
+  }
+  /* CTA buttons: full-width, rounded, outlined */
+  #cta .bc-btn-cu {
+    width: 100% !important;
+    justify-content: center !important;
+    border-radius: 12px !important;
+    padding: 14px 1.5rem !important;
+    background: transparent !important;
+    color: var(--copper) !important;
+    border: 1px solid var(--copper) !important;
+    align-self: stretch !important;
+    margin-top: 0.5rem !important;
+  }
+  #cta .bc-btn {
+    width: 100% !important;
+    justify-content: center !important;
+    border-radius: 12px !important;
+    padding: 14px 1.5rem !important;
+  }
+  /* CTA section lead text on dark bg */
+  #cta .bento-lead .eyebrow        { color: var(--copper) !important; }
+  #cta .bento-lead .bento-lead-title { color: #fff !important; }
+
+  /* ── 14. TYPOGRAPHY ──────────────────────────────── */
   .bc-h   { font-size: clamp(1.4rem, 6vw, 2rem); }
   .n6     { font-size: 3.5rem; }
   .n5     { font-size: 3rem; }
   .n4     { font-size: 2.5rem; }
   .n35    { font-size: 2rem; }
   .n25    { font-size: 1.8rem; }
-  .bc-stat { font-size: 2rem; }
+  .bc-stat  { font-size: 2rem; }
   .bc-body  { font-size: 0.875rem; }
   .bc-quote { font-size: 0.95rem; }
   .bc-am    { font-size: 0.8rem; }
-
-  .bc-pad, .bc-pad-start { padding: 1.5rem; }
-  .bc-bottom { padding: 1.5rem; }
-  .bc-center, .bc-mid { padding: 1.5rem; }
-
   .amen-icon { width: 18px; height: 18px; }
   .amen-lbl  { font-size: 0.72rem; }
 
-  .bc-link { min-height: 44px; display: inline-flex; align-items: center; }
-  .bc-btn  { min-height: 44px; width: 100%; justify-content: center; }
+  .bc-pad, .bc-pad-start { padding: 1.5rem; }
+  .bc-bottom  { padding: 1.5rem; }
+  .bc-center,
+  .bc-mid     { padding: 1.5rem; }
 
-  footer { padding: 3rem 1.5rem; }
-  .footer-inner { grid-template-columns: 1fr; text-align: center; gap: 2rem; }
-  .footer-nav {
-    flex-direction: row; flex-wrap: wrap;
-    justify-content: center; align-items: center; gap: 0.5rem 1.5rem;
+  .bc-link { min-height: 44px; display: inline-flex; align-items: center; }
+  .bc-btn  { min-height: 44px; }
+
+  /* ── 15. FOOTER ──────────────────────────────────── */
+  footer { padding: 40px 20px; }
+  .footer-inner {
+    grid-template-columns: 1fr !important;
+    text-align: center;
+    gap: 20px;
   }
-  .footer-nav a { min-height: 44px; display: inline-flex; align-items: center; }
-  .footer-copy    { text-align: center; }
-  .footer-tagline { display: block; margin-top: 0.3rem; }
+  .footer-nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem 1.5rem;
+  }
+  .footer-nav a    { min-height: 44px; display: inline-flex; align-items: center; }
+  .footer-copy     { text-align: center; }
+  .footer-tagline  { display: block; margin-top: 0.3rem; }
 }
 
 /* ── Reduced Motion ──────────────────────────────────── */
@@ -932,7 +1195,26 @@ footer {
     <div class="scroll-line"></div>
     <span class="scroll-label">Découvrir</span>
   </div>
+
+  <!-- Mobile hero overlay content (≤ 768px) -->
+  <div class="mob-hero-content">
+    <div class="mob-hero-pill">★★★★★&nbsp;&nbsp;5.0</div>
+    <h2 class="mob-hero-title">Des séjours qui marquent l'âme.</h2>
+    <p class="mob-hero-sub">Granby &amp; Blainville, Québec</p>
+  </div>
 </section>
+
+<!-- Mobile stat pills below hero (≤ 768px) -->
+<div class="mob-stat-pills">
+  <div class="mob-stat-pill">
+    <span class="msp-num">5.0</span>
+    <span class="msp-lbl">Note parfaite</span>
+  </div>
+  <div class="mob-stat-pill">
+    <span class="msp-text">Superhôte</span>
+    <span class="msp-lbl">Certifiée Airbnb</span>
+  </div>
+</div>
 
 <!-- ── Section 2 — Logements ─────────────────────────── -->
 <section id="granby" class="bento-section">
