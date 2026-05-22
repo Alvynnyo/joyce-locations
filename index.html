@@ -823,10 +823,11 @@ footer {
   /* ── 1. BASE ─────────────────────────────────────── */
   html, body { overflow-x: hidden; }
   body {
-    background: #ebebeb;
+    background: #0f0d0b;
     font-size: 16px;
     line-height: 1.6;
     cursor: auto;
+    -webkit-overflow-scrolling: touch;
   }
   #c-dot, #c-ring { display: none; }
 
@@ -873,8 +874,8 @@ footer {
   #panel-r, .hero-divider { display: none !important; }
   #panel-l { flex-grow: 1 !important; }
   .panel-overlay { background: rgba(0,0,0,0.42) !important; }
-  .hero-center  { display: none !important; }
-  .hero-scroll  { display: none !important; }
+  .hero-center   { display: none !important; }
+  .hero-scroll   { display: none !important; }
   .hero-mob-caps { display: none !important; }
   .panel-caption { opacity: 0 !important; pointer-events: none !important; }
 
@@ -889,12 +890,66 @@ footer {
     padding: 24px;
     z-index: 20;
   }
+  .mob-hero-title {
+    font-size: 2.4rem;
+    font-weight: 300;
+    line-height: 1.05;
+  }
+  .mob-hero-sub {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.55);
+  }
 
-  /* Mobile stat pills */
-  .mob-stat-pills {
+  /* Hide old stat pills; show new stats card */
+  .mob-stat-pills  { display: none !important; }
+  .mob-stats-card  {
     display: flex !important;
-    gap: 10px;
+    align-items: center;
+    justify-content: space-around;
+    background: #ffffff;
+    border-radius: 20px;
     margin: 10px 16px 0;
+    padding: 20px 24px;
+  }
+  .mob-stats-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    flex: 1;
+  }
+  .msc-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    color: #c9a06a;
+    line-height: 1;
+    display: block;
+  }
+  .msc-stars {
+    font-size: 0.9rem;
+    color: #c9a06a;
+    display: block;
+    line-height: 1.4;
+  }
+  .msc-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    color: #111111;
+    display: block;
+    line-height: 1;
+  }
+  .msc-lbl {
+    font-family: 'Jost', sans-serif;
+    font-weight: 200;
+    font-size: 0.62rem;
+    color: #888070;
+    display: block;
+  }
+  .mob-stats-sep {
+    width: 1px;
+    height: 40px;
+    background: rgba(0,0,0,0.1);
+    flex-shrink: 0;
   }
 
   /* ── 5. SECTION CONTAINERS ───────────────────────── */
@@ -903,15 +958,12 @@ footer {
     background: transparent !important;
     padding: 32px 0 !important;
   }
-  /* Dark amenities section */
   .bento-dark-section {
     background: #1a1816 !important;
     padding: 32px 0 !important;
   }
-  /* Override inline warm-grey on host section */
   #hote { background: transparent !important; }
 
-  /* CTA: full-bleed background image on mobile */
   #cta {
     background: url('https://a0.muscache.com/im/pictures/miso/Hosting-1159217637687308452/original/6e9662d5-35da-4d1f-bcdd-54b007befe94.jpeg') center/cover no-repeat #0d0b09 !important;
     position: relative;
@@ -934,7 +986,7 @@ footer {
 
   /* ── 7. GRID COLLAPSE ────────────────────────────── */
   .bento-grid { grid-template-columns: 1fr; gap: 0; }
-  .bga        { grid-template-columns: repeat(2, 1fr); gap: 8px; padding: 0 16px; }
+  .bga        { grid-template-columns: 1fr !important; gap: 6px; padding: 0 16px; }
   .bc-s2      { grid-column: 1; }
 
   .bgh > :nth-child(1) { grid-column: 1; grid-row: auto; }
@@ -956,22 +1008,32 @@ footer {
     border: none !important;
     margin: 0 16px 10px !important;
   }
-  /* Card backgrounds */
   .bc-white  { background: #ffffff !important; }
   .bc-warm   { background: #f5f3f0 !important; }
   .bc-dark   { background: #1a1816 !important; }
   .bc-copper { background: var(--copper) !important; }
-  /* Amenity cards: translucent on dark background */
+
+  /* Amenity cards */
   .bc-amen {
-    background: rgba(255,255,255,0.06) !important;
+    background: rgba(255,255,255,0.05) !important;
     border: 1px solid rgba(255,255,255,0.08) !important;
-    border-radius: 16px !important;
-    margin: 0 !important;
+    border-radius: 12px !important;
+    margin: 0 0 6px 0 !important;
   }
   .bc-amen:active {
     background: rgba(160,105,74,0.15) !important;
     border-color: var(--copper) !important;
   }
+
+  /* ── Photo cards: aspect-ratio ───────────────────── */
+  .bc-photo {
+    aspect-ratio: 3 / 4;
+    min-height: unset !important;
+    background-size: cover !important;
+    background-position: center !important;
+  }
+  /* Detail photo cards — landscape proportion */
+  .bc-photo.bc-h200 { aspect-ratio: 4 / 3; }
 
   /* ── 9. SEPARATOR CARD ───────────────────────────── */
   .bc-sep {
@@ -979,22 +1041,64 @@ footer {
     background: #ffffff !important;
     border-radius: 20px !important;
     margin: 0 16px 10px !important;
-    min-height: 56px !important;
-    height: 56px !important;
+    min-height: 110px !important;
+    height: auto !important;
+    padding: 28px 24px !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    align-items: center !important;
   }
-  .bc-sep::before { left: 24px; right: 24px; }
-  .bc-sep-text    { background: #ffffff; padding: 0 1rem; }
+  .bc-sep::before { left: 24px; right: 24px; top: 50%; }
+  .bc-sep-text { display: none !important; }
+  .bc-sep-eyebrow {
+    display: block !important;
+    font-family: 'Jost', sans-serif;
+    font-weight: 200;
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    color: #c9a06a;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+  .bc-sep-sub {
+    display: block !important;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.4rem;
+    color: #111111;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
 
-  /* ── 10. CARD HEIGHTS ────────────────────────────── */
-  .bc-h500 { min-height: 260px; }
-  .bc-h420 { min-height: 260px; }
-  .bc-h280 { min-height: 220px; }
-  .bc-h240 { min-height: 180px; }
-  .bc-h220 { min-height: 160px; }
-  .bc-h200 { min-height: 150px; }
-  .bc-h130 { min-height: 110px; }
+  /* ── 10. AMENITIES — single column list ──────────── */
+  .bc-amen .bc-center {
+    flex-direction: row !important;
+    justify-content: flex-start !important;
+    text-align: left !important;
+    gap: 16px !important;
+    padding: 16px 20px !important;
+    align-items: center !important;
+    min-height: unset !important;
+  }
+  .amen-icon {
+    width: 28px !important;
+    height: 28px !important;
+    flex-shrink: 0;
+    color: rgba(255,255,255,0.9) !important;
+  }
+  .amen-lbl {
+    font-family: 'Jost', sans-serif !important;
+    font-weight: 300 !important;
+    font-size: 0.85rem !important;
+    color: rgba(255,255,255,0.75) !important;
+    text-align: left !important;
+    letter-spacing: 0 !important;
+  }
 
-  /* ── 11. HOST SECTION — side-by-side stats ───────── */
+  /* ── 11. HOST SECTION ────────────────────────────── */
   #hote .bento-grid.bgh {
     grid-template-columns: 1fr 1fr;
     padding: 0 16px;
@@ -1020,158 +1124,278 @@ footer {
     grid-row: 3 !important;
     min-height: 120px !important;
   }
-  /* Grid handles spacing; remove individual card margins */
   #hote .bc { margin: 0 !important; }
 
-  /* ── 12. REVIEWS — copper score card ────────────── */
+  /* ── 12. REVIEWS ─────────────────────────────────── */
   #avis .bc-copper { padding: 32px !important; }
 
-  /* ── 12b. STAT CARD LAYOUT (dark "5.0" cards) ───── */
+  #avis .bc-quote::before {
+    content: '«';
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3.5rem;
+    color: #a0694a;
+    opacity: 0.4;
+    display: block;
+    line-height: 0.8;
+    margin-bottom: 8px;
+  }
+  #avis .bc-quote {
+    font-size: 1.05rem;
+    line-height: 1.75;
+    color: rgba(0,0,0,0.85);
+  }
+  #avis .bc-reviewer {
+    font-weight: 600;
+    font-size: 0.72rem;
+    color: #111111;
+    letter-spacing: 0.12em;
+  }
+  #avis .bc-prop-nm {
+    display: block;
+    color: #c9a06a;
+    font-size: 0.62rem;
+    margin-top: 4px;
+  }
+
+  /* ── 12b. STAT CARD LAYOUT ───────────────────────── */
   .bc-dark .bc-center {
     gap: 12px;
     min-height: 180px;
     justify-content: center;
   }
 
-  /* ── 13. CTA CARDS — dark glass on image ─────────── */
+  /* ── 13. CTA CARDS ───────────────────────────────── */
   #cta .bc-white,
   #cta .bc-dark {
     background: rgba(13,11,9,0.85) !important;
     backdrop-filter: blur(12px) !important;
     -webkit-backdrop-filter: blur(12px) !important;
+    padding: 28px 24px !important;
+    margin-bottom: 12px !important;
+    border-radius: 20px !important;
   }
-  /* Override inline color:var(--black) on property name paragraphs */
-  #cta .bc-pad p  { color: rgba(255,255,255,0.9) !important; }
-  #cta .bc-ey     { color: var(--copper) !important; }
-  #cta .bc-sub    { color: rgba(255,255,255,0.55) !important; }
-  #cta .bc-h      { color: #fff !important; }
+  #cta .bc-ey  { color: #c9a06a !important; }
+  #cta .bc-sub { color: rgba(255,255,255,0.55) !important; }
+  #cta .bc-h   { color: #fff !important; }
   #cta .bc-pad > div[style*="border-top"] {
     border-top-color: rgba(255,255,255,0.12) !important;
   }
-  /* CTA buttons: full-width, rounded, outlined */
-  #cta .bc-btn-cu {
-    width: 100% !important;
-    justify-content: center !important;
-    border-radius: 12px !important;
-    padding: 14px 1.5rem !important;
-    background: transparent !important;
-    color: var(--copper) !important;
-    border: 1px solid var(--copper) !important;
-    align-self: stretch !important;
-    margin-top: 0.5rem !important;
+  /* Property names: Cormorant italic 1.6rem */
+  #cta .bc-pad p {
+    font-family: 'Cormorant Garamond', serif !important;
+    font-style: italic !important;
+    font-size: 1.6rem !important;
+    color: rgba(255,255,255,0.9) !important;
+    line-height: 1.2 !important;
+    margin-bottom: 0.4rem !important;
   }
+  /* CTA buttons: full width, 52px tap targets */
+  #cta .bc-btn-cu,
   #cta .bc-btn {
+    display: block !important;
     width: 100% !important;
-    justify-content: center !important;
-    border-radius: 12px !important;
-    padding: 14px 1.5rem !important;
+    height: 52px !important;
+    line-height: 52px !important;
+    text-align: center !important;
+    font-size: 0.85rem !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.12em !important;
+    border-radius: 0 !important;
+    margin-top: 20px !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
   }
-  /* CTA section lead text on dark bg */
-  #cta .bento-lead .eyebrow        { color: var(--copper) !important; }
+  #cta .bc-btn-cu {
+    background: transparent !important;
+    color: #c9a06a !important;
+    border: 1px solid #c9a06a !important;
+    justify-content: center !important;
+    align-self: stretch !important;
+  }
+  #cta .bento-lead .eyebrow          { color: #c9a06a !important; }
   #cta .bento-lead .bento-lead-title { color: #fff !important; }
 
-  /* ── 14. TYPOGRAPHY ──────────────────────────────── */
-  .bc-h   { font-size: clamp(1.4rem, 6vw, 2rem); }
-  .n6     { font-size: 3.5rem; }
-  .n5     { font-size: 3.5rem; }   /* stat card "5.0": was 3rem */
-  .n4     { font-size: 2.5rem; }
-  .n35    { font-size: 2.8rem; }   /* copper "20 min": was 2rem */
-  .n25    { font-size: 1.8rem; }
-  .bc-stat  { font-size: 2.2rem; font-weight: 500; }  /* capacity number */
-  .bc-sub   { font-size: 0.82rem; font-weight: 400; }
-  .bc-body  { font-size: 0.875rem; }
-  .bc-quote { font-size: 0.95rem; }
-  .bc-am    { font-size: 0.78rem; font-weight: 400; }
-  .bc-lbl   { font-size: 0.85rem; font-weight: 400; } /* "NOTE PARFAITE" etc. */
-  .bc-tiny  { font-size: 0.72rem; font-weight: 300; }
-  .amen-icon { width: 18px; height: 18px; }
-  .amen-lbl  { font-size: 0.72rem; }
-
-  /* ── 14a. STAT CARD TYPOGRAPHY ─────────────────── */
-  /* Stars on dark stat cards */
-  .bc-dark .bc-stars {
-    font-size: 1.1rem;
-    letter-spacing: 4px;
+  /* ── 14. HAMBURGER MENU OVERLAY ──────────────────── */
+  .mob-menu {
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    padding-top: 80px;
   }
-  /* "des Laurentides" on copper card gets stronger weight */
+  .mob-close {
+    font-size: 2.5rem !important;
+    color: rgba(255,255,255,0.5) !important;
+    top: 24px !important;
+    right: 24px !important;
+    line-height: 1 !important;
+  }
+  .mob-nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+  }
+  .mob-nav-link {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 3rem;
+    color: white;
+    display: block;
+    padding: 16px 0;
+    text-align: center;
+    letter-spacing: 0.02em;
+    position: relative;
+    width: 100%;
+    line-height: 1;
+    min-height: 44px;
+  }
+  .mob-cta-link { position: relative; }
+  .mob-nav-num {
+    display: block !important;
+    font-family: 'Jost', sans-serif;
+    font-weight: 200;
+    font-size: 0.65rem;
+    color: #c9a06a;
+    letter-spacing: 0.2em;
+    opacity: 0.6;
+    position: absolute;
+    left: 40px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .mob-menu-footer {
+    display: block !important;
+    font-family: 'Jost', sans-serif;
+    font-weight: 200;
+    font-size: 0.7rem;
+    color: rgba(255,255,255,0.3);
+    text-align: center;
+    margin-top: auto;
+    padding-bottom: 48px;
+    padding-top: 32px;
+  }
+
+  /* ── 15. FOOTER ──────────────────────────────────── */
+  footer { padding: 40px 24px; }
+  .footer-inner {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    gap: 24px !important;
+    grid-template-columns: unset !important;
+  }
+  .footer-brand {
+    font-size: 1.6rem;
+    margin-bottom: 4px;
+    display: block;
+  }
+  .footer-tagline {
+    font-family: 'Jost', sans-serif;
+    font-weight: 200;
+    color: rgba(255,255,255,0.3);
+    font-size: 0.65rem;
+    display: block;
+    margin-top: 0.3rem;
+  }
+  .footer-copy {
+    color: rgba(255,255,255,0.2);
+    font-size: 0.65rem;
+    text-align: center;
+  }
+  .footer-nav {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 16px 24px !important;
+  }
+  .footer-nav a {
+    color: rgba(255,255,255,0.35) !important;
+    font-size: 0.68rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.12em !important;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  /* ── 16. TYPOGRAPHY ──────────────────────────────── */
+  .bc-h    { font-size: clamp(1.4rem, 6vw, 2rem); }
+  .n6      { font-size: 3.5rem; }
+  .n5      { font-size: 3.5rem; }
+  .n4      { font-size: 2.5rem; }
+  .n35     { font-size: 2.8rem; }
+  .n25     { font-size: 1.8rem; }
+  .bc-stat { font-size: 2.2rem; font-weight: 500; }
+  .bc-sub  { font-size: 0.82rem; font-weight: 400; }
+  .bc-body { font-size: 0.875rem; }
+  .bc-quote{ font-size: 1.05rem; line-height: 1.75; }
+  .bc-am   { font-size: 0.78rem; font-weight: 400; }
+  .bc-lbl  { font-size: 0.85rem; font-weight: 400; }
+  .bc-tiny { font-size: 0.72rem; font-weight: 300; }
+
+  .bc-dark .bc-stars { font-size: 1.1rem; letter-spacing: 4px; }
   .bc-copper .bc-lbl { font-weight: 500; }
 
-  /* ── 14b. PHOTO CARD TEXT OVERLAY ──────────────── */
-  /* Eyebrow: "GRANBY, QUÉBEC" etc. */
+  /* Photo card text overlays */
   .bc-photo .bc-ey {
     font-weight: 500;
     font-size: 0.72rem;
-    text-shadow: 0 1px 8px rgba(0,0,0,0.6);
+    text-shadow: 0 2px 16px rgba(0,0,0,0.8);
   }
-  /* Property name title */
   .bc-photo .bc-h {
     font-weight: 600;
-    font-size: 1.9rem;
-    text-shadow: 0 2px 12px rgba(0,0,0,0.7);
+    font-size: 2rem;
+    text-shadow: 0 2px 16px rgba(0,0,0,0.8);
   }
-  /* Specs line "6 voyageurs · 2 chambres" */
   .bc-photo .bc-am {
     font-weight: 400;
     font-size: 0.78rem;
-    text-shadow: 0 1px 6px rgba(0,0,0,0.6);
+    text-shadow: 0 2px 16px rgba(0,0,0,0.8);
   }
-  /* "RÉSERVER SUR AIRBNB →" */
   .bc-photo .bc-link {
     font-weight: 500;
     font-size: 0.72rem;
     letter-spacing: 0.18em;
+    text-shadow: 0 2px 16px rgba(0,0,0,0.8);
   }
 
-  /* ── 14c. CAPACITY CARD ─────────────────────────── */
-  /* "CAPACITÉ" eyebrow on light card */
+  /* Light card eyebrows and subs */
   .bc-warm .bc-ey,
-  .bc-white .bc-ey { font-size: 0.72rem; font-weight: 500; }
-  /* "6 voyageurs" */
-  /* bc-stat already updated above to 2.2rem / 500 */
-  /* "2 chambres · 3 lits" */
-  .bc-warm .bc-sub  { color: var(--muted); }
+  .bc-white .bc-ey  { font-size: 0.72rem; font-weight: 500; }
+  .bc-warm .bc-sub,
   .bc-white .bc-sub { color: var(--muted); }
 
-  /* ── 14d. GENERAL DARK/IMAGE TEXT SHADOWS ───────── */
-  /* All text on dark cards */
-  .bc-dark  .bc-num,
-  .bc-dark  .bc-lbl,
-  .bc-dark  .bc-stars,
-  .bc-dark  .bc-tiny   { text-shadow: 0 2px 10px rgba(0,0,0,0.65); }
-  /* All text on copper cards */
+  /* Dark/copper card text shadows */
+  .bc-dark .bc-num,
+  .bc-dark .bc-lbl,
+  .bc-dark .bc-stars,
+  .bc-dark .bc-tiny   { text-shadow: 0 2px 10px rgba(0,0,0,0.65); }
   .bc-copper .bc-num,
   .bc-copper .bc-lbl,
-  .bc-copper .bc-tiny  { text-shadow: 0 2px 10px rgba(0,0,0,0.65); }
-  /* Review quote + score card on dark/copper bg */
+  .bc-copper .bc-tiny { text-shadow: 0 2px 10px rgba(0,0,0,0.65); }
   #avis .bc-copper .bc-num,
   #avis .bc-copper .bc-sub,
   #avis .bc-copper .bc-tiny { text-shadow: 0 2px 10px rgba(0,0,0,0.65); }
 
+  /* ── 17. GLOBAL POLISH ───────────────────────────── */
+  .bc-cu          { color: #c9a06a !important; }
+  .bc-stars       { color: #c9a06a; }
+  .bc-stars-top   { color: #c9a06a; }
+  .bc-stars-wh    { color: rgba(255,255,255,0.9); }
+  .eyebrow-copper { color: #c9a06a; }
+
   .bc-pad, .bc-pad-start { padding: 1.5rem; }
-  .bc-bottom  { padding: 1.5rem; }
+  .bc-bottom { padding: 1.5rem; }
   .bc-center,
-  .bc-mid     { padding: 1.5rem; }
+  .bc-mid    { padding: 1.5rem; }
 
   .bc-link { min-height: 44px; display: inline-flex; align-items: center; }
   .bc-btn  { min-height: 44px; }
-
-  /* ── 15. FOOTER ──────────────────────────────────── */
-  footer { padding: 40px 20px; }
-  .footer-inner {
-    grid-template-columns: 1fr !important;
-    text-align: center;
-    gap: 20px;
-  }
-  .footer-nav {
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    gap: 0.5rem 1.5rem;
-  }
-  .footer-nav a    { min-height: 44px; display: inline-flex; align-items: center; }
-  .footer-copy     { text-align: center; }
-  .footer-tagline  { display: block; margin-top: 0.3rem; }
 }
 
 /* ── Reduced Motion ──────────────────────────────────── */
@@ -1210,12 +1434,13 @@ footer {
 <div class="mob-menu" id="mob-menu" aria-hidden="true" role="dialog" aria-label="Navigation">
   <button class="mob-close" id="mob-close" aria-label="Fermer le menu">&#215;</button>
   <nav class="mob-nav">
-    <a href="#granby"    class="mob-nav-link">Logements</a>
-    <a href="#hote"      class="mob-nav-link">À propos</a>
-    <a href="#equip"     class="mob-nav-link">Équipements</a>
-    <a href="#avis"      class="mob-nav-link">Avis</a>
-    <a href="#cta"       class="mob-cta-link">Réserver</a>
+    <a href="#granby"    class="mob-nav-link"><span class="mob-nav-num" style="display:none">01</span>Logements</a>
+    <a href="#hote"      class="mob-nav-link"><span class="mob-nav-num" style="display:none">02</span>À propos</a>
+    <a href="#equip"     class="mob-nav-link"><span class="mob-nav-num" style="display:none">03</span>Équipements</a>
+    <a href="#avis"      class="mob-nav-link"><span class="mob-nav-num" style="display:none">04</span>Avis</a>
+    <a href="#cta"       class="mob-cta-link"><span class="mob-nav-num" style="display:none">05</span>Réserver</a>
   </nav>
+  <div class="mob-menu-footer" style="display:none">&#9733;&#9733;&#9733;&#9733;&#9733;&nbsp;&nbsp;5.0 · Superhôte</div>
 </div>
 
 <!-- ── Hero ────────────────────────────────────────── -->
@@ -1274,15 +1499,21 @@ footer {
   </div>
 </section>
 
-<!-- Mobile stat pills below hero (≤ 768px) -->
-<div class="mob-stat-pills">
-  <div class="mob-stat-pill">
-    <span class="msp-num">5.0</span>
-    <span class="msp-lbl">Note parfaite</span>
+<!-- Mobile stats card below hero (≤ 768px) -->
+<div class="mob-stats-card" style="display:none">
+  <div class="mob-stats-item">
+    <span class="msc-num">5.0</span>
+    <span class="msc-lbl">Note parfaite</span>
   </div>
-  <div class="mob-stat-pill">
-    <span class="msp-text">Superhôte</span>
-    <span class="msp-lbl">Certifiée Airbnb</span>
+  <div class="mob-stats-sep"></div>
+  <div class="mob-stats-item">
+    <span class="msc-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+    <span class="msc-lbl">8 avis</span>
+  </div>
+  <div class="mob-stats-sep"></div>
+  <div class="mob-stats-item">
+    <span class="msc-title">Superhôte</span>
+    <span class="msc-lbl">Certifiée</span>
   </div>
 </div>
 
@@ -1331,7 +1562,9 @@ footer {
 
     <!-- Separator — Granby / Blainville -->
     <div class="bc-sep" aria-hidden="true">
+      <span class="bc-sep-eyebrow" style="display:none">NOS LOGEMENTS</span>
       <span class="bc-sep-text">— Nos deux logements —</span>
+      <span class="bc-sep-sub" style="display:none">Granby · Blainville</span>
     </div>
 
     <!-- E: Blainville dark rating -->
